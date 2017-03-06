@@ -16,7 +16,6 @@ public abstract class SimpleTimer {
 		long delay = 1000L;
 	  	  
 		timer.scheduleAtFixedRate(task, delay, delay);
-		//ok.
    }
    
    public void resetTimer(){
