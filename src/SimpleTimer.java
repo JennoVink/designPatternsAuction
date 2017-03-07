@@ -16,7 +16,6 @@ public abstract class SimpleTimer {
 		long delay = 1000L;
 	  	  
 		timer.scheduleAtFixedRate(task, delay, delay);
-		//k
    }
    
    public void resetTimer(){
@@ -46,7 +45,6 @@ class customTimerTask extends TimerTask {
    @Override
    public void run() {
 	  count--;
-//      System.out.println("Count is: " + count);
       
       if(count == 0){
     	  cancel();
@@ -55,7 +53,7 @@ class customTimerTask extends TimerTask {
       sw.timerTicked(count);    
    }  
    
-   public int getCount(){
+   public final int getCount(){
 	   return count;
    }
    

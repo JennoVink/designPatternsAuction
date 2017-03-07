@@ -11,9 +11,7 @@ public class Auctioneer extends SimpleTimer {
 		
 	}
 	
-	public void timerTicked(int count){
-//		System.out.println("hello from timer ticked! " + count);
-		
+	public void timerTicked(int count){	
 		//notify observers
 		notifyObservers();
 		
@@ -42,7 +40,6 @@ public class Auctioneer extends SimpleTimer {
 		//als de observer die in de iteratie op dat moment aan de beurt is besluit het wel te doen
 		//dan is het meer dat er in een veilingszaal aan elk persoon één voor één wordt gevraagd of ze een
 		//bieding willen doen...
-		
 		
 	}
 	
