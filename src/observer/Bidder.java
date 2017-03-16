@@ -13,8 +13,38 @@ public abstract class Bidder implements Observer{
 		this.name = name;
 		this.auctioneer = auctioneer;
 	}
+	
+	/**
+	 * Depending on the currentProduct and the param count, here the subclasses have to decide
+	 * if they want to make a bid or not.
+	 * @param count
+	 */
+	protected abstract void makeBid(int count);
 
-	public void update(int count, Product p) {
-				
+	/**
+	 * A method that checks if the bidder is able to make a bid.
+	 * @return true if the bidder has enough budget, false if not.
+	 */
+	public boolean haveEnoughBudget(){
+		if(this.budget >= currentProduct.getHighestBid().getPrice() + currentProduct.getIncreasePrice()){
+			return true;
+		}			
+		return false;
+	}
+	
+	public void update(int count, Product product) {
+		this.currentProduct = product;
+		makeBid(count);
+	}
+	
+	/**
+	 * returns a string with information about the bidder (budget etc.)
+	 */
+	public String toString(){
+		//note: when concatenating a string with an object, the .toString() method is automatically called on that object. 
+		return "Name: " + this.name + "\r\n"
+				+ "budget: €" + this.budget + ",-\r\n"
+				+ "current product bidding on: " + this.currentProduct
+				+ "subject: " + auctioneer;	
 	}
 }

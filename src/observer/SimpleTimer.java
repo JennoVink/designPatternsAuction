@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class SimpleTimer {
+import factory.Product;
+
+public class SimpleTimer extends Subject {
    private static TimerTask task = null;
    private static Timer timer = new Timer();
-     
-   //This is weird... The auctioneer is going to be a bidder? whuutwhuut.
-   private ArrayList<Observer> observers;
-   
+        
    public SimpleTimer(){}
    
+   @Override
    public void startTimer(){
 	   timer = new Timer();
 	   	int count = 5;
@@ -23,9 +23,17 @@ public class SimpleTimer {
 		timer.scheduleAtFixedRate(task, delay, delay);
    }
    
+   @Override
+   public void stopTimer() {
+	   timer.cancel();
+	   task = null;
+   }
+   
+   @Override
    public void resetTimer(){
 	   timer.cancel();
 	   task = null;
+	   startTimer();
    }
    
    public int getCount(){ 
@@ -34,22 +42,18 @@ public class SimpleTimer {
 	   }
 	   return 0;
    }
-   
-   public void removeObserver(Bidder b){
-	   
-   }
-   
-   public void registerObserver(Bidder b){
-	   
-   }
-   
-   public void notifyObservers(int count){
+      
+   /**
+    * In this case, the timer doesn't have to broadcast a product, only a count to the auctioneer.
+    * @param count
+    */
+   public void notifyObservers(){
 	   for(Observer observer : observers){
-		   observer.update(count, null);
+		   observer.update(getCount(), null);
 	   }
    }
    
-  // public abstract void timerTicked(int count);
+   
 }
 
 class CustomTimerTask extends TimerTask {
@@ -69,7 +73,7 @@ class CustomTimerTask extends TimerTask {
     	  cancel();
       }
       
-      timer.notifyObservers(count);    
+      timer.notifyObservers();    
    }  
    
    public final int getCount(){
