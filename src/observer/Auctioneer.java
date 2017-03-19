@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import factory.AbstractFactory;
 import factory.Product;
 import noPattern.Bid;
+import testingPleaseDelete.BrokeBidder;
+import testingPleaseDelete.TestProduct;
 
 public class Auctioneer extends Subject implements Observer{
 	public static void main(String[] args){
@@ -14,11 +16,20 @@ public class Auctioneer extends Subject implements Observer{
 		
 		//Let the timer know someone is watching him.
 		timer.registerObserver(auctioneer);
+		
+		//now it's time for some bidders:
+		//note: the haveEnoughBudget() method in Bidder doesn't really work.
+		Bidder bidder = new BrokeBidder(20, "Japse de hond", auctioneer);
+		auctioneer.registerObserver(bidder);
+		
+//		bidder = new BrokeBidder(200, "Foxie het konijn", auctioneer);
+//		auctioneer.registerObserver(bidder);
+		
 		auctioneer.startAuction();
 		
 	}
 	
-	private Product currentProduct;
+	private Product currentProduct = new TestProduct();
 	
 	//In this case, the Observer is a Bidder.
 	//Note: we don't want to use an arraylist: the registerObserver is then the same as the bidder
@@ -47,9 +58,15 @@ public class Auctioneer extends Subject implements Observer{
 			
 	public void gotNewBid(Bid bid){
 		currentProduct.setHighestBid(bid);
+		printNewBidMessage(bid);
 		timer.resetTimer();
 	}
 	
+	private void printNewBidMessage(Bid bid) {
+		System.out.println("We've got a new bid (" + bid.getPrice() + ") by\r\n" + bid.getBidder());
+		
+	}
+
 	public Product getNewProduct(String type){
 		return productFactory.generateRandomProduct("car");
 	}
@@ -57,6 +74,7 @@ public class Auctioneer extends Subject implements Observer{
 	public void notifyObservers() {
 		for(Observer bidder : observers){
 			bidder.update(this.count, currentProduct);
+			System.out.println(bidder);
 		}
 	}
 
@@ -69,27 +87,58 @@ public class Auctioneer extends Subject implements Observer{
 	public void update(int count, Product p) {	
 		this.count = count;
 		
+		printInformation();
+		
 		switch(count) {
 		case 0:
-			System.out.println("verkocht!");
+			lowerPriceOrSetSold();
+			System.out.println("---------------verkocht!---------------");
 			break;
 		case 1: 
-			System.out.println("andermaal");
-			timer.resetTimer();
+			System.out.println("---------------andermaal---------------");
 			break;
 		case 2:
-			System.out.println("eenmaal");
+			System.out.println("---------------eenmaal---------------");
 			break;
 		}
 		
 		notifyObservers();
 	}
 	
+	/**
+	 * If no one wants a product, the price must be lowerd (if not already the lowest price)
+	 * or a new product must be created.
+	 * @return true if a new product must be created by the factory.
+	 */
+	public boolean lowerPriceOrSetSold(){
+		timer.resetTimer();
+		
+		if(currentProduct.getHighestBid().getBidder() == null){
+			//try to lower the price.
+			if(!currentProduct.lowerPrice()){
+				System.out.println("Product " + currentProduct.getName() + " not sold.");
+			} else {
+				//price is successfully lowered, no new product must be made.
+				return false;				
+			}
+		} else {
+			//the product is sold: set the owner.
+			currentProduct.setProductSold();
+		}
+
+		return true;
+	}
+	
+	private void printInformation() {
+		System.out.println("---auctioneer-info---");
+		System.out.println("---currentProduct: " + currentProduct);
+		System.out.println("---amount of bidders: " + observers.size());
+	}
+
 	public void printWelcomeMessage(){
 		System.out.println("----Welcome to the:-----");
 		System.out.println("---------Unfair---------");
 		System.out.println("---------Auction--------");
-	
 	}
 	
 }

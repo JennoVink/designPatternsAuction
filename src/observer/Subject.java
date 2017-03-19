@@ -1,7 +1,8 @@
 package observer;
 
-import java.io.NotActiveException;
 import java.util.ArrayList;
+
+import noPattern.Bid;
 
 public abstract class Subject {
 	protected ArrayList<Observer> observers = new ArrayList<>();
@@ -17,11 +18,12 @@ public abstract class Subject {
 		} 
 	}
 	
+	public void gotNewBid(Bid bid) {}
+	
 	//note: the SimpleTimer is also a Subject. So he needs to override the following methods:
 	public void startTimer() {}
 	public void stopTimer() {}
 	public void resetTimer() {}
-	
 		
 	abstract void notifyObservers();
 }
