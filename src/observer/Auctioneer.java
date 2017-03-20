@@ -1,5 +1,4 @@
 package observer;
-import java.util.ArrayList;
 import factory.AbstractFactory;
 import factory.Product;
 import noPattern.Bid;
@@ -52,7 +51,7 @@ public class Auctioneer extends Subject implements Observer{
 	
 	public void startAuction(){
 		printWelcomeMessage();
-//		currentProduct = productFactory.generateRandomProduct(null);
+		setNewProduct();
 		timer.startTimer();
 	}
 			
@@ -69,6 +68,11 @@ public class Auctioneer extends Subject implements Observer{
 
 	public Product getNewProduct(String type){
 		return productFactory.generateRandomProduct("car");
+	}
+		
+	public void setNewProduct(){
+		//todo: get from factory: productFactory.generateRandomProduct(null);
+		this.currentProduct = new TestProduct();
 	}
 	
 	public void notifyObservers() {
@@ -91,8 +95,10 @@ public class Auctioneer extends Subject implements Observer{
 		
 		switch(count) {
 		case 0:
-			lowerPriceOrSetSold();
-			System.out.println("---------------verkocht!---------------");
+			//lowerPriceOrSetSold returns true if a new product needs to be made.
+			if(lowerPriceOrSetSold()){
+				setNewProduct();
+			}
 			break;
 		case 1: 
 			System.out.println("---------------andermaal---------------");
@@ -118,11 +124,13 @@ public class Auctioneer extends Subject implements Observer{
 			if(!currentProduct.lowerPrice()){
 				System.out.println("Product " + currentProduct.getName() + " not sold.");
 			} else {
+				System.out.println("---------------niet verkocht! Prijs verlaagd---------------");
 				//price is successfully lowered, no new product must be made.
 				return false;				
 			}
 		} else {
 			//the product is sold: set the owner.
+			System.out.println("---------------verkocht!---------------");
 			currentProduct.setProductSold();
 		}
 

@@ -123,8 +123,8 @@ public abstract class Product {
 	 * method that lowers the price, if no one makes a bid to a product.
 	 * @return
 	 */
-	public boolean lowerPrice() {
-		if((startPrice - increasePrice) < lowestPrice){
+	public boolean lowerPrice() {	
+		if((startPrice - increasePrice) > lowestPrice){
 			startPrice -= increasePrice;
 			return true;
 		}
