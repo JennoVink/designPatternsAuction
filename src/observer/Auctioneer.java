@@ -1,4 +1,6 @@
 package observer;
+import java.util.Collections;
+
 import factory.AbstractFactory;
 import factory.Product;
 import noPattern.Bid;
@@ -17,11 +19,11 @@ public class Auctioneer extends Subject implements Observer{
 		timer.registerObserver(auctioneer);
 		
 		//now it's time for some bidders:
-		Bidder bidder = new BrokeBidder(20, "Japse de hond", auctioneer);
+		Bidder bidder = new BrokeBidder(200, "Japse de hond", auctioneer);
 		auctioneer.registerObserver(bidder);
 		
-//		bidder = new BrokeBidder(200, "Foxie het konijn", auctioneer);
-	//	auctioneer.registerObserver(bidder);
+		bidder = new BrokeBidder(200, "Foxie het konijn", auctioneer);
+		auctioneer.registerObserver(bidder);
 		
 		auctioneer.startAuction();
 		
@@ -51,7 +53,7 @@ public class Auctioneer extends Subject implements Observer{
 	}
 	
 	public void stopAuction(){
-		//printAMessage
+		printGoodbyMessage();
 		timer.stopTimer();
 	}
 			
@@ -62,7 +64,7 @@ public class Auctioneer extends Subject implements Observer{
 	}
 	
 	private void printNewBidMessage(Bid bid) {
-		System.out.println("We've got a new bid (" + bid.getPrice() + ") by\r\n" + bid.getBidder());
+		System.out.println("We've got a new bid (" + bid.getPriceString() + ") by\r\n" + bid.getBidder());
 		
 	}
 
@@ -75,7 +77,8 @@ public class Auctioneer extends Subject implements Observer{
 	 * can easily be managed. 
 	 */
 	public void setNewProduct(){
-		//hussle the observerList
+	    Collections.shuffle(observers);
+		
 		//todo: get from factory: this.currentProduct productFactory.generateRandomProduct(null);
 		this.currentProduct = new TestProduct();
 	}
@@ -108,17 +111,17 @@ public class Auctioneer extends Subject implements Observer{
 			case 1: 
 				//if there is a highest bid:
 				if(currentProduct.getHighestBid().getBidder() != null){
-					System.out.println("---------------€" + currentProduct.getHighestBid().getPrice() + ",- twice!---------------");
+					System.out.println("---------------" + currentProduct.getHighestBid().getPriceString() + " twice!---------------");
 				} else {
-					System.out.println("---------------For the last time! No one for €" + currentProduct.getHighestBid().getPrice() + ",- ...?---------------");					
+					System.out.println("---------------For the last time! No one for " + currentProduct.getHighestBid().getPriceString() + " ...?---------------");					
 				}
 				break;
 			case 2:
 				//if there is a highest bid:
 				if(currentProduct.getHighestBid().getBidder() != null){
-					System.out.println("---------------€" + currentProduct.getHighestBid().getPrice() + ",- once...---------------");
+					System.out.println("---------------" + currentProduct.getHighestBid().getPriceString() + " once...---------------");
 				} else {
-					System.out.println("---------------No one for €" + currentProduct.getHighestBid().getPrice() + ",- ...?---------------");					
+					System.out.println("---------------No one for " + currentProduct.getHighestBid().getPriceString() + " ...?---------------");					
 				}
 				break;
 		}
@@ -138,7 +141,7 @@ public class Auctioneer extends Subject implements Observer{
 		if(currentProduct.getHighestBid().getBidder() == null){
 			//try to lower the price.
 			if(!currentProduct.lowerPrice()){
-				System.out.println("Product " + currentProduct.getName() + " not sold.");
+				System.out.println("Product " + currentProduct.getName() + " not sold due to the lack of interest.");
 			} else {
 				System.out.println("---------------Not sold! lowered the price---------------");
 				//price is successfully lowered, no new product must be made.
@@ -146,23 +149,33 @@ public class Auctioneer extends Subject implements Observer{
 			}
 		} else {
 			//the product is sold: set the owner.
-			System.out.println("---------------Sold!---------------");
+			System.out.println("---------------Sold for " + currentProduct.getHighestBid().getPriceString() + " to " + currentProduct.getHighestBid().getBidder().name + "---------------");
+			Collections.shuffle(observers);
 			currentProduct.setProductSold();
 		}
 
 		return true;
 	}
 	
+	public String toString(){
+		return "the auctioneer";
+	}
+	
 	private void printInformation() {
 		System.out.println("---auctioneer-info---");
 		System.out.println("---currentProduct: " + currentProduct);
-		System.out.println("---amount of bidders: " + observers.size());
+		System.out.println("---amount of bidders at the auction: " + observers.size());
 	}
 
 	public void printWelcomeMessage(){
 		System.out.println("----Welcome to the:-----");
 		System.out.println("---------Unfair---------");
 		System.out.println("---------Auction--------");
+	}
+	
+	public void printGoodbyMessage(){
+		System.out.println("----Goodby!-----");
+		System.out.println("---Hope you liked this auction, you're welcome to come back later.---");
 	}
 	
 }

@@ -17,7 +17,7 @@ public abstract class Bidder implements Observer{
 	/**
 	 * Depending on the currentProduct and the param count, here the subclasses have to decide
 	 * if they want to make a bid or not.
-	 * @param count
+	 * @param count the count of the clock/SimpleTimer.
 	 */
 	protected abstract void makeBid(int count);
 

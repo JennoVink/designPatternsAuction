@@ -30,7 +30,7 @@ public abstract class Product {
 		this.highestBid = new Bid(null, startPrice);
 	}
 	
-	public void setProductSold(){
+	public final void setProductSold(){
 		//at this point, there is always a highestBidder (/highestBidder != null)
 		//note: we have honest bidders: they only bid when they have enough budget (just like a real auction).
 		highestBid.getBidder().takeBudget(highestBid.getPrice());
@@ -42,14 +42,13 @@ public abstract class Product {
 	 * @param bid
 	 */
 	public final void setHighestBid(Bid bid){
-		//if the product is not sold (yet) or there is no highest bidding.	
-		if(owner == null){
+		//if the product is not sold (yet) or there is no highest bidder -> accept the Bid.	
+		if(highestBid.getBidder() == null){
+			this.highestBid = bid;
+		} else if(owner == null){
 			if(bid.getPrice() > highestBid.getPrice()) {
 				this.highestBid = bid;
 			}
-			//if there is no highestBidder: accept the bid.
-		} else if(highestBid.getBidder() == null){
-			this.highestBid = bid;
 		}
 	}
 	
@@ -72,7 +71,7 @@ public abstract class Product {
 	 * Sets the icon variable.
 	 * @param icon
 	 */
-	public void setIcon(Icon icon){
+	public final void setIcon(Icon icon){
 		this.icon = icon;
 	}
 	
@@ -119,13 +118,14 @@ public abstract class Product {
 	public String toString(){
 		return "Product: " + name + "\r\n"
 				+ "Start price: " + startPrice + "\r\n"
-				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPrice() : "-none-\r\n");
+				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() + "\r\n" : "-none-\r\n");
 		
 	}
 
 	/**
 	 * method that lowers the price, if no one makes a bid to a product.
-	 * @return
+	 * @return true if the price is successfully lowered, false if the Auctioneer shoud
+	 * skip this product because it'll not be sold.
 	 */
 	public boolean lowerPrice() {	
 		if((startPrice - increasePrice) > lowestPrice){
