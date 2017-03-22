@@ -32,8 +32,9 @@ public abstract class Product {
 	
 	public void setProductSold(){
 		//at this point, there is always a highestBidder (/highestBidder != null)
-		this.owner = highestBid.getBidder();
+		//note: we have honest bidders: they only bid when they have enough budget (just like a real auction).
 		highestBid.getBidder().takeBudget(highestBid.getPrice());
+		this.owner = highestBid.getBidder();
 	}
 	
 	/**
@@ -41,11 +42,14 @@ public abstract class Product {
 	 * @param bid
 	 */
 	public final void setHighestBid(Bid bid){
-		//if the product is not sold (yet).		
+		//if the product is not sold (yet) or there is no highest bidding.	
 		if(owner == null){
 			if(bid.getPrice() > highestBid.getPrice()) {
 				this.highestBid = bid;
 			}
+			//if there is no highestBidder: accept the bid.
+		} else if(highestBid.getBidder() == null){
+			this.highestBid = bid;
 		}
 	}
 	

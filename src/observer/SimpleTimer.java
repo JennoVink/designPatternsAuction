@@ -1,23 +1,33 @@
 package observer;
 
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import factory.Product;
 
+/**
+ * This class is responsible for counting to zero.
+ * This is a subject because the Auctioneer class is subscribed to the ticks of the clock.
+ * 
+ */
 public class SimpleTimer extends Subject {
    private static TimerTask task = null;
    private static Timer timer = new Timer();
+   private static int startCount = 5;
         
-   public SimpleTimer(){}
+   public SimpleTimer(int startCount){
+	   this.startCount = startCount;
+   }
    
+   public SimpleTimer(){
+	   this.startCount = 5;
+   }
+         
    @Override
    public void startTimer(){
-	   timer = new Timer();
-	   	int count = 5;
+	    timer = new Timer();
 			        
-		task = new CustomTimerTask(count, this);
+		task = new CustomTimerTask(startCount, this);
 		long delay = 1000L;
 	  	  
 		timer.scheduleAtFixedRate(task, delay, delay);
@@ -52,8 +62,6 @@ public class SimpleTimer extends Subject {
 		   observer.update(getCount(), null);
 	   }
    }
-   
-   
 }
 
 class CustomTimerTask extends TimerTask {

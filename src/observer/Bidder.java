@@ -23,15 +23,15 @@ public abstract class Bidder implements Observer{
 
 	/**
 	 * A method that checks if the bidder is able to make a bid.
+	 * @param forFirstBid true if no one has made a bid to the product.
 	 * @return true if the bidder has enough budget, false if not.
 	 */
-	public boolean haveEnoughBudget(){	
-		if(this.budget >= (currentProduct.getHighestBid().getPrice() + currentProduct.getIncreasePrice())){
-			System.out.println("have enough budget!");
-			return true;
-		}	
-		System.out.println("i am to poor!");
-		return false;
+	public boolean haveEnoughBudget(boolean forFirstBid){	
+		if(forFirstBid){
+			return this.budget >= currentProduct.getHighestBid().getPrice();
+		}
+		
+		return this.budget >= (currentProduct.getHighestBid().getPrice() + currentProduct.getIncreasePrice());
 	}
 	
 	/**
