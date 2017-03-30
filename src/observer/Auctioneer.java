@@ -161,7 +161,7 @@ public class Auctioneer extends Subject implements Observer{
 		return "the auctioneer";
 	}
 	
-	private void printInformation() {
+	public void printInformation() {
 		System.out.println("---auctioneer-info---");
 		System.out.println("---currentProduct: " + currentProduct);
 		System.out.println("---amount of bidders at the auction: " + observers.size());
