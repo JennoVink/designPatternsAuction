@@ -9,7 +9,7 @@ import testingPleaseDelete.TestProduct;
 
 public class Auctioneer extends Subject implements Observer{
 	public static void main(String[] args){
-		System.out.println("Hello friend. Hello, friend.");
+		System.out.println("Hello friend. Hello, friend. Welcome to the animal auction");
 				
 		SimpleTimer timer = new SimpleTimer();
 		AbstractFactory productFactory = null;

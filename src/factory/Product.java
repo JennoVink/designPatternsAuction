@@ -13,7 +13,13 @@ public abstract class Product {
 	protected Bid highestBid; //The highest bid.
 	protected Icon icon; //The icon of a product.
 	
-	//add icon.
+	/**
+	 * todo: add Icon param.
+	 * @param name
+	 * @param startPrice
+	 * @param lowestPrice
+	 * @param increasePrice
+	 */
 	public Product(String name, int startPrice, int lowestPrice, int increasePrice){
 		this.name = name;
 
