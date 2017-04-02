@@ -13,28 +13,29 @@ import testingPleaseDelete.TestProduct;
 
 public class Auctioneer extends Subject implements Observer{
 	public static void main(String[] args){
-		System.out.println("Hello friend. Hello, friend.");
-				
-		SimpleTimer timer = new SimpleTimer();
+//		System.out.println("Hello friend. Hello, friend.");
+//				
+//		SimpleTimer timer = new SimpleTimer();
 		AbstractFactory productFactory = new ProductFactory();
-		Auctioneer auctioneer = new Auctioneer(productFactory, timer);
-		
-		//let the timer know someone is watching him.
-		timer.registerObserver(auctioneer);
-		
-		//now it's time for some bidders:
-		Bidder bidder = new BrokeBidder(200, "Japse de hond", auctioneer);
-		auctioneer.registerObserver(bidder);
-		
-		bidder = new BrokeBidder(200, "Foxie het konijn", auctioneer);
-		auctioneer.registerObserver(bidder);
-		
-		auctioneer.startAuction();
-		
-//		Product decoratedProduct = new GiftPaper(new XLSize(new Bike()));
+//		Auctioneer auctioneer = new Auctioneer(productFactory, timer);
 //		
+//		//let the timer know someone is watching him.
+//		timer.registerObserver(auctioneer);
 //		
-//		System.out.println(decoratedProduct.getStartPrice());
+//		//now it's time for some bidders:
+//		Bidder bidder = new BrokeBidder(200, "Japse de hond", auctioneer);
+//		auctioneer.registerObserver(bidder);
+//		
+//		bidder = new BrokeBidder(200, "Foxie het konijn", auctioneer);
+//		auctioneer.registerObserver(bidder);
+//		
+//		auctioneer.startAuction();
+		
+		for(int i = 0; i < 300; i++)
+		{
+			Product p = productFactory.generateRandomProduct();
+			System.out.println( i + "   " + p.getDescription());
+		}
 	}
 	
 	private Product currentProduct = new TestProduct();
