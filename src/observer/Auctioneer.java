@@ -13,7 +13,7 @@ import testingPleaseDelete.TestProduct;
 
 public class Auctioneer extends Subject implements Observer{
 	public static void main(String[] args){
-		System.out.println("Hello friend. Hello, friend.");
+		System.out.println("Hello friend. Hello, friend. Welcome to the animal auction");
 				
 		SimpleTimer timer = new SimpleTimer();
 		AbstractFactory productFactory = new ProductFactory();
@@ -169,7 +169,7 @@ public class Auctioneer extends Subject implements Observer{
 		return "the auctioneer";
 	}
 	
-	private void printInformation() {
+	public void printInformation() {
 		System.out.println("---auctioneer-info---");
 		System.out.println("---currentProduct: " + currentProduct);
 		System.out.println("---amount of bidders at the auction: " + observers.size());

@@ -18,9 +18,21 @@ public abstract class Product {
 	protected Icon icon; //The icon of a product.
 	protected ArrayList<String> decorators;
 	
+<<<<<<< HEAD
 	//add icon.
 	public Product(String description, int startPrice, int lowestPrice, int increasePrice){
 		this.description = description;
+=======
+	/**
+	 * todo: add Icon param.
+	 * @param name
+	 * @param startPrice
+	 * @param lowestPrice
+	 * @param increasePrice
+	 */
+	public Product(String name, int startPrice, int lowestPrice, int increasePrice){
+		this.name = name;
+>>>>>>> branch 'master' of https://github.com/JennoVink/designPatternsAuction
 
 		if(startPrice < lowestPrice){
 			System.out.println("the startPrice cannot be lower than the lowestPrice, default value of 100 is set now.");
