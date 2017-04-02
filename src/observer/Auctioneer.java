@@ -1,12 +1,8 @@
-package observer;import java.util.Collections;
+package observer;
+import java.util.Collections;
 
-import decorator.Decorator;
-import decorator.GiftPaper;
-import decorator.XLSize;
 import factory.AbstractFactory;
-import factory.Bike;
 import factory.Product;
-import factory.ProductFactory;
 import noPattern.Bid;
 import testingPleaseDelete.BrokeBidder;
 import testingPleaseDelete.TestProduct;
@@ -16,7 +12,7 @@ public class Auctioneer extends Subject implements Observer{
 		System.out.println("Hello friend. Hello, friend. Welcome to the animal auction");
 				
 		SimpleTimer timer = new SimpleTimer();
-		AbstractFactory productFactory = new ProductFactory();
+		AbstractFactory productFactory = null;
 		Auctioneer auctioneer = new Auctioneer(productFactory, timer);
 		
 		//let the timer know someone is watching him.
@@ -31,10 +27,6 @@ public class Auctioneer extends Subject implements Observer{
 		
 		auctioneer.startAuction();
 		
-//		Product decoratedProduct = new GiftPaper(new XLSize(new Bike()));
-//		
-//		
-//		System.out.println(decoratedProduct.getStartPrice());
 	}
 	
 	private Product currentProduct = new TestProduct();
@@ -46,11 +38,11 @@ public class Auctioneer extends Subject implements Observer{
 	private int count;
 	
 	public Auctioneer(AbstractFactory productFactory, Subject timer){
-		if(productFactory == null || timer == null){
-			System.out.println("No ProductFactory and/or Timer given to the auctioneer. Aborting...");
-			System.exit(0);
-		}
-		this.productFactory = productFactory;
+//		if(productFactory == null || timer == null){
+//			System.out.println("No ProductFactory and/or Timer given to the auctioneer. Aborting...");
+//			System.exit(0);
+//		}
+//		this.productFactory = productFactory;
 		this.timer = timer;
 	}
 	
@@ -76,8 +68,8 @@ public class Auctioneer extends Subject implements Observer{
 		
 	}
 
-	public Product getNewProduct(){
-		return productFactory.generateRandomProduct();
+	public Product getNewProduct(String type){
+		return productFactory.generateRandomProduct(type);
 	}
 		
 	/**
@@ -87,8 +79,8 @@ public class Auctioneer extends Subject implements Observer{
 	public void setNewProduct(){
 	    Collections.shuffle(observers);
 		
-		this.currentProduct = productFactory.generateRandomProduct();
-	    
+		//todo: get from factory: this.currentProduct productFactory.generateRandomProduct(null);
+		this.currentProduct = new TestProduct();
 	}
 	
 	public void notifyObservers() {
@@ -149,7 +141,7 @@ public class Auctioneer extends Subject implements Observer{
 		if(currentProduct.getHighestBid().getBidder() == null){
 			//try to lower the price.
 			if(!currentProduct.lowerPrice()){
-				System.out.println("Product " + currentProduct.getDescription() + " not sold due to the lack of interest.");
+				System.out.println("Product " + currentProduct.getName() + " not sold due to the lack of interest.");
 			} else {
 				System.out.println("---------------Not sold! lowered the price---------------");
 				//price is successfully lowered, no new product must be made.

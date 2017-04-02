@@ -1,25 +1,21 @@
 package factory;
 
 import virtualProxy.Icon;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import noPattern.Bid;
 import observer.Bidder;
 
 public abstract class Product {
 	protected Bidder owner; //If the product is sold is decided by this variable. 
-	protected String description; //The name of the product.
+	protected String name; //The name of the product.
 	protected int startPrice; //The startPrice: the auctioneer starts the bidding round with this price.
 	protected int lowestPrice; //The auctioneer'll not sell the product for a price lower than the lowestPrice.
 	protected int increasePrice; //The price is increased with every bid by the increasePrice
 	protected Bid highestBid; //The highest bid.
 	protected Icon icon; //The icon of a product.
-	protected ArrayList<String> decorators;
 	
 <<<<<<< HEAD
 	//add icon.
+<<<<<<< HEAD
 	public Product(String description, int startPrice, int lowestPrice, int increasePrice){
 		this.description = description;
 =======
@@ -33,6 +29,10 @@ public abstract class Product {
 	public Product(String name, int startPrice, int lowestPrice, int increasePrice){
 		this.name = name;
 >>>>>>> branch 'master' of https://github.com/JennoVink/designPatternsAuction
+=======
+	public Product(String name, int startPrice, int lowestPrice, int increasePrice){
+		this.name = name;
+>>>>>>> parent of 921b9b6... Loads of code added, decorators work now still need to fix double
 
 		if(startPrice < lowestPrice){
 			System.out.println("the startPrice cannot be lower than the lowestPrice, default value of 100 is set now.");
@@ -45,7 +45,6 @@ public abstract class Product {
 		this.increasePrice = increasePrice;
 		//set the 'highestBid' to a nullBidder, and the lowestPrice to a int that the bidding'll never reach.
 		this.highestBid = new Bid(null, startPrice);
-		decorators = new ArrayList<String>(4);
 	}
 	
 	public final void setProductSold(){
@@ -96,8 +95,8 @@ public abstract class Product {
 	/**
 	 * @return the name of a person
 	 */
-	public String getDescription(){
-		return description;
+	public final String getName(){
+		return name;
 	}
 	
 	/**
@@ -133,20 +132,8 @@ public abstract class Product {
 		return increasePrice;
 	}
 	
-	public void setDecorator(String decorator){
-		decorators.add(decorator);
-	}
-	
-	public ArrayList<String> getDecorators(){
-		return decorators;
-	}
-	
-	public boolean containsDecorator(String decorator){
-		return decorators.contains(decorator);
-	}
-	
 	public String toString(){
-		return "Product: " + description + "\r\n"
+		return "Product: " + name + "\r\n"
 				+ "Start price: " + startPrice + "\r\n"
 				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() + "\r\n" : "-none-\r\n");
 		
