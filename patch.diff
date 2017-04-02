@@ -1,0 +1,530 @@
+From 921b9b6e7a6f096407eefe810e21861ca00f9878 Mon Sep 17 00:00:00 2001
+From: Daniel Wildeboer <d.wildeboer@live.nl>
+Date: Sun, 2 Apr 2017 21:38:43 +0200
+Subject: [PATCH] Loads of code added, decorators work now still need to fix
+ double decorators
+
+---
+ src/decorator/Decorator.java     | 21 +++++++++++
+ src/decorator/GiftPaper.java     | 19 ++++++++++
+ src/decorator/Maintenance.java   | 21 +++++++++++
+ src/decorator/Warranty.java      | 21 +++++++++++
+ src/decorator/XLSize.java        | 23 ++++++++++++
+ src/factory/AbstractFactory.java |  6 +++-
+ src/factory/Bike.java            | 15 ++++++++
+ src/factory/Car.java             | 16 +++++++++
+ src/factory/Plane.java           | 16 +++++++++
+ src/factory/Product.java         | 30 ++++++++++++----
+ src/factory/ProductFactory.java  | 78 ++++++++++++++++++++++++++++++++++++++++
+ src/noPattern/Randomizer.java    | 28 +++++++++++++++
+ src/observer/Auctioneer.java     | 34 +++++++++++-------
+ 13 files changed, 308 insertions(+), 20 deletions(-)
+ create mode 100644 src/decorator/Decorator.java
+ create mode 100644 src/decorator/GiftPaper.java
+ create mode 100644 src/decorator/Maintenance.java
+ create mode 100644 src/decorator/Warranty.java
+ create mode 100644 src/decorator/XLSize.java
+ create mode 100644 src/factory/Bike.java
+ create mode 100644 src/factory/Car.java
+ create mode 100644 src/factory/Plane.java
+ create mode 100644 src/factory/ProductFactory.java
+ create mode 100644 src/noPattern/Randomizer.java
+
+diff --git a/src/decorator/Decorator.java b/src/decorator/Decorator.java
+new file mode 100644
+index 0000000..24eb43f
+--- /dev/null
++++ b/src/decorator/Decorator.java
+@@ -0,0 +1,21 @@
++package decorator;
++
++import factory.Product;
++
++public abstract class Decorator extends Product {
++
++	protected Product wrappedProduct;
++	public Decorator(Product wrappedProduct)
++	{
++		//This is sad...
++		super(wrappedProduct.getDescription(), 
++				wrappedProduct.getStartPrice(), 
++				wrappedProduct.getLowestPrice(), 
++				wrappedProduct.getIncreasePrice());
++		this.wrappedProduct = wrappedProduct;		
++	}
++	//Gives the description to Product.
++	public abstract String getDescription();
++	//Gives the price to Product
++	public abstract int getPrice();
++}
+diff --git a/src/decorator/GiftPaper.java b/src/decorator/GiftPaper.java
+new file mode 100644
+index 0000000..e994684
+--- /dev/null
++++ b/src/decorator/GiftPaper.java
+@@ -0,0 +1,19 @@
++package decorator;
++
++import factory.Product;
++public class GiftPaper extends Decorator {
++
++	public GiftPaper(Product wrappedProduct)
++	{
++		super(wrappedProduct);
++	}
++	
++	public String getDescription()
++	{
++		return wrappedProduct.getDescription() + ", wrapped in gift paper";
++	}
++	public int getPrice()
++	{
++		return (int)(wrappedProduct.getStartPrice() * 1.05);  
++	}
++}
+diff --git a/src/decorator/Maintenance.java b/src/decorator/Maintenance.java
+new file mode 100644
+index 0000000..b12bb90
+--- /dev/null
++++ b/src/decorator/Maintenance.java
+@@ -0,0 +1,21 @@
++package decorator;
++
++import factory.Product;
++public class Maintenance extends Decorator {
++	
++	public Maintenance(Product wrappedProduct)
++	{
++		super(wrappedProduct);
++	}
++	
++	public String getDescription()
++	{
++		return wrappedProduct.getDescription() + ", with a maintenance period";
++	}
++	public int getPrice()
++	{
++		return (int)(wrappedProduct.getStartPrice() * 1.2);
++	}
++		
++	
++}
+diff --git a/src/decorator/Warranty.java b/src/decorator/Warranty.java
+new file mode 100644
+index 0000000..f18acb2
+--- /dev/null
++++ b/src/decorator/Warranty.java
+@@ -0,0 +1,21 @@
++package decorator;
++
++import factory.Product;
++public class Warranty extends Decorator {
++
++	public Warranty(Product wrappedProduct)
++	{
++		super(wrappedProduct);
++	}
++	
++	public String getDescription()
++	{
++		return wrappedProduct.getDescription() + ", with warranty";
++	}
++	public int getPrice()
++	{
++		return (int)(wrappedProduct.getStartPrice() * 1.2); 
++	}
++		
++	
++}
+diff --git a/src/decorator/XLSize.java b/src/decorator/XLSize.java
+new file mode 100644
+index 0000000..0712751
+--- /dev/null
++++ b/src/decorator/XLSize.java
+@@ -0,0 +1,23 @@
++package decorator;
++
++import factory.Product;
++
++public class XLSize extends Decorator {
++
++	public XLSize(Product wrappedProduct)
++	{
++		super(wrappedProduct);
++	}
++	
++	public String getDescription()
++	{
++		return wrappedProduct.getDescription() + ", in XL size";
++	}
++	public int getPrice()
++	{
++		return (int)(wrappedProduct.getStartPrice() * 1.4);
++	}
++	
++		
++	
++}
+diff --git a/src/factory/AbstractFactory.java b/src/factory/AbstractFactory.java
+index 8dde15c..26b424c 100644
+--- a/src/factory/AbstractFactory.java
++++ b/src/factory/AbstractFactory.java
+@@ -1,5 +1,9 @@
+ package factory;
+ 
+ public interface AbstractFactory {
+-	abstract Product generateRandomProduct(String string);
++	//Generate a random product without parameters.
++	abstract Product generateRandomProduct();
++	//Generate a product following the type defined in the String parameter.
++	abstract Product generateProduct(String string);
++	
+ }
+diff --git a/src/factory/Bike.java b/src/factory/Bike.java
+new file mode 100644
+index 0000000..11bdb6e
+--- /dev/null
++++ b/src/factory/Bike.java
+@@ -0,0 +1,15 @@
++package factory;
++
++import noPattern.Randomizer;
++public class Bike extends Product {
++
++	public Bike()
++	{
++		super("Bike", Randomizer.getRandomInt(100, 200), Randomizer.getRandomInt(40, 100), Randomizer.getRandomInt(0, 50));
++	}
++	
++	public String getDescription()
++	{
++		return "A bike";
++	}
++}
+diff --git a/src/factory/Car.java b/src/factory/Car.java
+new file mode 100644
+index 0000000..ee550de
+--- /dev/null
++++ b/src/factory/Car.java
+@@ -0,0 +1,16 @@
++package factory;
++
++import noPattern.Randomizer;
++
++public class Car extends Product {
++
++	public Car()
++	{
++		super("Car", Randomizer.getRandomInt(100, 200), Randomizer.getRandomInt(40, 100), Randomizer.getRandomInt(0, 50));
++	}
++	
++	public String getDescription()
++	{
++		return "A car";
++	}
++}
+diff --git a/src/factory/Plane.java b/src/factory/Plane.java
+new file mode 100644
+index 0000000..c8e15ac
+--- /dev/null
++++ b/src/factory/Plane.java
+@@ -0,0 +1,16 @@
++package factory;
++
++import noPattern.Randomizer;
++
++public class Plane extends Product {
++
++	public Plane()
++	{
++		super("Plane", Randomizer.getRandomInt(100, 200), Randomizer.getRandomInt(40, 100), Randomizer.getRandomInt(0, 50));
++	}
++	
++	public String getDescription()
++	{
++		return "A plane";
++	}
++}
+diff --git a/src/factory/Product.java b/src/factory/Product.java
+index 4dd4e96..6b9f2bd 100644
+--- a/src/factory/Product.java
++++ b/src/factory/Product.java
+@@ -1,21 +1,26 @@
+ package factory;
+ 
+ import virtualProxy.Icon;
++
++import java.util.ArrayList;
++import java.util.List;
++
+ import noPattern.Bid;
+ import observer.Bidder;
+ 
+ public abstract class Product {
+ 	protected Bidder owner; //If the product is sold is decided by this variable. 
+-	protected String name; //The name of the product.
++	protected String description; //The name of the product.
+ 	protected int startPrice; //The startPrice: the auctioneer starts the bidding round with this price.
+ 	protected int lowestPrice; //The auctioneer'll not sell the product for a price lower than the lowestPrice.
+ 	protected int increasePrice; //The price is increased with every bid by the increasePrice
+ 	protected Bid highestBid; //The highest bid.
+ 	protected Icon icon; //The icon of a product.
++	protected ArrayList<String> decorators;
+ 	
+ 	//add icon.
+-	public Product(String name, int startPrice, int lowestPrice, int increasePrice){
+-		this.name = name;
++	public Product(String description, int startPrice, int lowestPrice, int increasePrice){
++		this.description = description;
+ 
+ 		if(startPrice < lowestPrice){
+ 			System.out.println("the startPrice cannot be lower than the lowestPrice, default value of 100 is set now.");
+@@ -28,6 +33,7 @@ public abstract class Product {
+ 		this.increasePrice = increasePrice;
+ 		//set the 'highestBid' to a nullBidder, and the lowestPrice to a int that the bidding'll never reach.
+ 		this.highestBid = new Bid(null, startPrice);
++		decorators = new ArrayList<String>(4);
+ 	}
+ 	
+ 	public final void setProductSold(){
+@@ -78,8 +84,8 @@ public abstract class Product {
+ 	/**
+ 	 * @return the name of a person
+ 	 */
+-	public final String getName(){
+-		return name;
++	public String getDescription(){
++		return description;
+ 	}
+ 	
+ 	/**
+@@ -115,8 +121,20 @@ public abstract class Product {
+ 		return increasePrice;
+ 	}
+ 	
++	public void setDecorator(String decorator){
++		decorators.add(decorator);
++	}
++	
++	public ArrayList<String> getDecorators(){
++		return decorators;
++	}
++	
++	public boolean containsDecorator(String decorator){
++		return decorators.contains(decorator);
++	}
++	
+ 	public String toString(){
+-		return "Product: " + name + "\r\n"
++		return "Product: " + description + "\r\n"
+ 				+ "Start price: " + startPrice + "\r\n"
+ 				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() + "\r\n" : "-none-\r\n");
+ 		
+diff --git a/src/factory/ProductFactory.java b/src/factory/ProductFactory.java
+new file mode 100644
+index 0000000..14bc1eb
+--- /dev/null
++++ b/src/factory/ProductFactory.java
+@@ -0,0 +1,78 @@
++package factory;
++
++import decorator.GiftPaper;
++import decorator.Maintenance;
++import decorator.Warranty;
++import decorator.XLSize;
++import noPattern.Randomizer;
++
++
++public class ProductFactory implements AbstractFactory {
++
++	//Returns a product generated with random integers.
++	public Product generateRandomProduct()
++	{
++		int numberOfDecorators = Randomizer.getRandomInt(1,2);
++		switch(Randomizer.getRandomInt(1, 3))
++		{
++			case 1: 
++				return addDecorators(new Car(), numberOfDecorators);
++			case 2:
++				return addDecorators(new Plane(), numberOfDecorators);
++			case 3:
++				return addDecorators(new Bike(), numberOfDecorators);
++		}
++		System.out.println("Product is null!");
++		return null;		
++	}
++	
++	//Adds the decorators after the creation of the product is finished the
++	//switch case inside check for duplicates and adds them to the decorator list.
++	private Product addDecorators(Product product, int numberOfDecorators)
++	{
++		for(int i = 0; i < numberOfDecorators ; i++)
++		{
++			//pull a random number for a decorator
++			switch(Randomizer.getRandomInt(1, 4))
++			{
++				case 1: 
++					if(!product.containsDecorator("Warranty")){
++					product = new Warranty(product);	
++					product.setDecorator("Warranty");
++					}
++				case 2:
++					if(!product.containsDecorator("Maintenance")){
++					product = new Maintenance(product);	
++					product.setDecorator("Maintenance");
++					}
++				case 3:
++					if(!product.containsDecorator("GiftPaper")){
++					product = new GiftPaper(product);
++					product.setDecorator("GiftPaper");
++					}
++				case 4:
++					if(!product.containsDecorator("XL")){
++					product = new XLSize(product);
++					product.setDecorator("XL");
++					}
++			}
++		}
++		return product;
++	}
++	
++	//Generate a product with the already defined type, following the String parameter.
++	public Product generateProduct(String type)
++	{
++		switch(type)
++		{
++			case "Car": 
++				return addDecorators(new Car(), Randomizer.getRandomInt(1,2));
++			case "Plane":
++				return addDecorators(new Plane(), Randomizer.getRandomInt(1,2));
++			case "Bike":
++				return addDecorators(new Bike(), Randomizer.getRandomInt(1,2));
++		}
++		return null;	
++	}
++	
++}
+diff --git a/src/noPattern/Randomizer.java b/src/noPattern/Randomizer.java
+new file mode 100644
+index 0000000..0a6efde
+--- /dev/null
++++ b/src/noPattern/Randomizer.java
+@@ -0,0 +1,28 @@
++package noPattern;
++
++import java.util.Random;
++
++public final class Randomizer {
++
++	public static Random generator = new Random();
++	
++	public static int getRandomInt()
++	{
++		return generator.nextInt();
++	}
++	
++	public static int getRandomInt(int max)
++	{
++		return generator.nextInt(max);
++	}
++	
++	public static boolean getRandomBool()
++	{
++		return generator.nextBoolean();
++	}
++	
++	public static int getRandomInt(int min, int max)
++	{
++		return generator.nextInt(max + 1 - min) + min;
++	}
++}
+diff --git a/src/observer/Auctioneer.java b/src/observer/Auctioneer.java
+index e1d0b55..2a9b8c0 100644
+--- a/src/observer/Auctioneer.java
++++ b/src/observer/Auctioneer.java
+@@ -1,8 +1,12 @@
+-package observer;
+-import java.util.Collections;
++package observer;import java.util.Collections;
+ 
++import decorator.Decorator;
++import decorator.GiftPaper;
++import decorator.XLSize;
+ import factory.AbstractFactory;
++import factory.Bike;
+ import factory.Product;
++import factory.ProductFactory;
+ import noPattern.Bid;
+ import testingPleaseDelete.BrokeBidder;
+ import testingPleaseDelete.TestProduct;
+@@ -12,7 +16,7 @@ public class Auctioneer extends Subject implements Observer{
+ 		System.out.println("Hello friend. Hello, friend.");
+ 				
+ 		SimpleTimer timer = new SimpleTimer();
+-		AbstractFactory productFactory = null;
++		AbstractFactory productFactory = new ProductFactory();
+ 		Auctioneer auctioneer = new Auctioneer(productFactory, timer);
+ 		
+ 		//let the timer know someone is watching him.
+@@ -27,6 +31,10 @@ public class Auctioneer extends Subject implements Observer{
+ 		
+ 		auctioneer.startAuction();
+ 		
++//		Product decoratedProduct = new GiftPaper(new XLSize(new Bike()));
++//		
++//		
++//		System.out.println(decoratedProduct.getStartPrice());
+ 	}
+ 	
+ 	private Product currentProduct = new TestProduct();
+@@ -38,11 +46,11 @@ public class Auctioneer extends Subject implements Observer{
+ 	private int count;
+ 	
+ 	public Auctioneer(AbstractFactory productFactory, Subject timer){
+-//		if(productFactory == null || timer == null){
+-//			System.out.println("No ProductFactory and/or Timer given to the auctioneer. Aborting...");
+-//			System.exit(0);
+-//		}
+-//		this.productFactory = productFactory;
++		if(productFactory == null || timer == null){
++			System.out.println("No ProductFactory and/or Timer given to the auctioneer. Aborting...");
++			System.exit(0);
++		}
++		this.productFactory = productFactory;
+ 		this.timer = timer;
+ 	}
+ 	
+@@ -68,8 +76,8 @@ public class Auctioneer extends Subject implements Observer{
+ 		
+ 	}
+ 
+-	public Product getNewProduct(String type){
+-		return productFactory.generateRandomProduct(type);
++	public Product getNewProduct(){
++		return productFactory.generateRandomProduct();
+ 	}
+ 		
+ 	/**
+@@ -79,8 +87,8 @@ public class Auctioneer extends Subject implements Observer{
+ 	public void setNewProduct(){
+ 	    Collections.shuffle(observers);
+ 		
+-		//todo: get from factory: this.currentProduct productFactory.generateRandomProduct(null);
+-		this.currentProduct = new TestProduct();
++		this.currentProduct = productFactory.generateRandomProduct();
++	    
+ 	}
+ 	
+ 	public void notifyObservers() {
+@@ -141,7 +149,7 @@ public class Auctioneer extends Subject implements Observer{
+ 		if(currentProduct.getHighestBid().getBidder() == null){
+ 			//try to lower the price.
+ 			if(!currentProduct.lowerPrice()){
+-				System.out.println("Product " + currentProduct.getName() + " not sold due to the lack of interest.");
++				System.out.println("Product " + currentProduct.getDescription() + " not sold due to the lack of interest.");
+ 			} else {
+ 				System.out.println("---------------Not sold! lowered the price---------------");
+ 				//price is successfully lowered, no new product must be made.
+-- 
+2.6.1.windows.1
+
