@@ -1,7 +1,15 @@
 package observer;
 import java.util.Collections;
 
+
+import decorator.Decorator;
+import decorator.GiftPaper;
+import decorator.Warranty;
+import decorator.Maintenance;
+import decorator.XLSize;
 import factory.AbstractFactory;
+import factory.Bike;
+import factory.Car;
 import factory.Product;
 import noPattern.Bid;
 import testingPleaseDelete.BrokeBidder;
@@ -19,30 +27,41 @@ public class Auctioneer extends Subject implements Observer{
 		timer.registerObserver(auctioneer);
 		
 		//now it's time for some bidders:
-		Bidder bidder = new BrokeBidder(200, "Japse de hond", auctioneer);
+		Bidder bidder = new BrokeBidder(2000, "Japse de hond", auctioneer);
+//		Bidder bidder = new RandomBidder(2000, "Japse de hond", auctioneer);
 		auctioneer.registerObserver(bidder);
 		
-		bidder = new BrokeBidder(200, "Foxie het konijn", auctioneer);
+		bidder = new BrokeBidder(2000, "Foxie het konijn", auctioneer);
+//		bidder = new RandomBidder(2000, "Foxie het konijn", auctioneer);
 		auctioneer.registerObserver(bidder);
 		
 		auctioneer.startAuction();
 		
+		/*
+//		for(int i = 0; i < 300; i++)
+//		{
+//			Product p = productFactory.generateRandomProduct();
+//			System.out.println(p);
+//		} */
 	}
 	
-	private Product currentProduct = new TestProduct();
+	private Product currentProduct;
 	
 	private AbstractFactory productFactory;
 	private Subject timer;
+	
+	private int notSoldCounter;
 	
 	//this is painful... The SimpleTimer class now has a counter, and so do the Auctioneer...
 	private int count;
 	
 	public Auctioneer(AbstractFactory productFactory, Subject timer){
-//		if(productFactory == null || timer == null){
-//			System.out.println("No ProductFactory and/or Timer given to the auctioneer. Aborting...");
-//			System.exit(0);
-//		}
-//		this.productFactory = productFactory;
+		if(productFactory == null || timer == null){
+			System.out.println("No ProductFactory and/or Timer given to the auctioneer. Aborting...");
+			System.exit(0);
+		}
+		this.notSoldCounter = 0;
+		this.productFactory = productFactory;
 		this.timer = timer;
 	}
 	
@@ -68,8 +87,8 @@ public class Auctioneer extends Subject implements Observer{
 		
 	}
 
-	public Product getNewProduct(String type){
-		return productFactory.generateRandomProduct(type);
+	public Product getNewProduct(){
+		return productFactory.generateRandomProduct();
 	}
 		
 	/**
@@ -79,8 +98,13 @@ public class Auctioneer extends Subject implements Observer{
 	public void setNewProduct(){
 	    Collections.shuffle(observers);
 		
-		//todo: get from factory: this.currentProduct productFactory.generateRandomProduct(null);
-		this.currentProduct = new TestProduct();
+//		this.currentProduct = productFactory.generateRandomProduct();
+	    this.currentProduct = new Warranty(new TestProduct());
+	    		
+		System.out.println("-----A new Product is set!-----");
+		System.out.println(currentProduct);
+		System.out.println("-----We're going to use steps of " + currentProduct.getIncreasePrice() + " for the biddings.-----");
+		System.out.println("-----The Product'll not go away for a price lower than " + currentProduct.getLowestPrice() + ". Happy bidding everyone!-----");
 	}
 	
 	public void notifyObservers() {
@@ -141,7 +165,13 @@ public class Auctioneer extends Subject implements Observer{
 		if(currentProduct.getHighestBid().getBidder() == null){
 			//try to lower the price.
 			if(!currentProduct.lowerPrice()){
-				System.out.println("Product " + currentProduct.getName() + " not sold due to the lack of interest.");
+				System.out.println("Product " + currentProduct.getDescription() + " not sold due to the lack of interest.");
+				notSoldCounter++;
+				//Stop the auction if 10 times in a row a product is not sold.
+				if(notSoldCounter >= 10){
+					System.out.println("The auction is stopped, because " + notSoldCounter + " products are not sold due the lack of budget.");
+					stopAuction();
+				}
 			} else {
 				System.out.println("---------------Not sold! lowered the price---------------");
 				//price is successfully lowered, no new product must be made.
@@ -153,7 +183,7 @@ public class Auctioneer extends Subject implements Observer{
 			Collections.shuffle(observers);
 			currentProduct.setProductSold();
 		}
-
+		notSoldCounter = 0;
 		return true;
 	}
 	
