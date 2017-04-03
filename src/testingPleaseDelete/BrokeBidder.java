@@ -16,7 +16,7 @@ public class BrokeBidder extends Bidder{
 		if(currentProduct.getHighestBid().getBidder() == null){
 			//make the first bid if enough budget:
 			if(haveEnoughBudget(true)){
-				auctioneer.gotNewBid(new Bid(this, currentProduct.getHighestBid().getPrice()));
+				auctioneer.gotNewBid(new Bid(this, currentProduct.getStartPrice()));
 				return;
 			}
 		} else if(haveEnoughBudget(false) && !amIHighestBidder()){

@@ -16,24 +16,25 @@ public abstract class Product {
 	protected int increasePrice; //The price is increased with every bid by the increasePrice
 	protected Bid highestBid; //The highest bid.
 	protected Icon icon; //The icon of a product.
-	protected ArrayList<String> decorators;
 	
 	//add icon.
 	public Product(String description, int startPrice, int lowestPrice, int increasePrice){
 		this.description = description;
-
+	
 		if(startPrice < lowestPrice){
 			System.out.println("the startPrice cannot be lower than the lowestPrice, default value of 100 is set now.");
+			System.out.println("Startprice: " + startPrice);
+			System.out.println("LowestPrice: " + lowestPrice);
+			
 			startPrice = 100;
 			lowestPrice = 100;
 		}
 		
-		this.startPrice = startPrice;
+		this.startPrice = startPrice;	
 		this.lowestPrice = lowestPrice;
 		this.increasePrice = increasePrice;
-		//set the 'highestBid' to a nullBidder, and the lowestPrice to a int that the bidding'll never reach.
-		this.highestBid = new Bid(null, startPrice);
-		decorators = new ArrayList<String>(4);
+		//set the 'highestBid' to a nullBidder.
+		this.highestBid = new Bid(null, 1);
 	}
 	
 	public final void setProductSold(){
@@ -100,7 +101,7 @@ public abstract class Product {
 	 * @return startPrice
 	 */
 	public int getStartPrice(){
-		return startPrice;
+		return this.startPrice;
 	}
 	
 	/**
@@ -121,25 +122,6 @@ public abstract class Product {
 		return increasePrice;
 	}
 	
-	public void setDecorator(String decorator){
-		decorators.add(decorator);
-	}
-	
-	public ArrayList<String> getDecorators(){
-		return decorators;
-	}
-	
-	public boolean containsDecorator(String decorator){
-		return decorators.contains(decorator);
-	}
-	
-	public String toString(){
-		return "Product: " + this.getDescription() + "\r\n"
-				+ "Start price: " + this.getStartPrice() + "\r\n"
-				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() + "\r\n" : "-none-\r\n");
-		
-	}
-
 	/**
 	 * method that lowers the price, if no one makes a bid to a product.
 	 * @return true if the price is successfully lowered, false if the Auctioneer should
@@ -148,11 +130,41 @@ public abstract class Product {
 	public boolean lowerPrice() {	
 		if((startPrice - increasePrice) > lowestPrice){
 			startPrice -= increasePrice;
+			
+			//set a highestBid to the new startPrice.
+			highestBid = new Bid(null, startPrice);
 			return true;
 		}
 		//else: the product'll not be sold in the auction... the auctioneer'll skip this product.
 		return false;
 	}
+	
+	public void syncStartPrice(){
+		this.startPrice = getStartPrice();
+	}
+	
+	@override
+	public String toString(){
+		return "Product: " + this.getDescription() + "\r\n"
+				+ "Start price: " + this.getStartPrice() + " (increasing with " + this.getIncreasePrice() + ")\r\n"
+//				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() : "-none-" + "\r\n");
+				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() + "" : "-none-" + "\r\n");
+		
+		
+	}
+	
+
+	/**
+	 * returns a string with an euro sign (e.g. €10,- if the price is 10).
+	 * note: if someone decides that they prefer to use another currency (like BTC or dollars)
+	 * it (almost) only needs to be changed here (also in Bid class), instead of the whole application. (same goes for deciding
+	 * that we want to use another data type like double for storing the prices).
+	 * @return string with an euro sign.
+	 */
+	public String getPriceString() {
+		return "€" + this.getStartPrice() + ",-";
+	}	
+	
 	
 	
 	

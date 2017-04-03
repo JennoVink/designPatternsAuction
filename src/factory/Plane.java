@@ -6,7 +6,7 @@ public class Plane extends Product {
 
 	public Plane()
 	{
-		super("Plane", Randomizer.getRandomInt(1000, 2000), Randomizer.getRandomInt(400, 1000), Randomizer.getRandomInt(50, 500));
+		super("Plane", Randomizer.getRandomInt(5, 20) * 100, Randomizer.getRandomInt(4, 10) * 100, Randomizer.getRandomInt(5, 50) * 10);
 	}
 	
 	public String getDescription()

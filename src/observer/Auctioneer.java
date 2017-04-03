@@ -41,7 +41,7 @@ public class Auctioneer extends Subject implements Observer{
 //		} */
 	}
 	
-	private Product currentProduct = new TestProduct();
+	private Product currentProduct;
 	
 	private AbstractFactory productFactory;
 	private Subject timer;
@@ -92,6 +92,11 @@ public class Auctioneer extends Subject implements Observer{
 	    Collections.shuffle(observers);
 		
 		this.currentProduct = productFactory.generateRandomProduct();
+	    //this.currentProduct = new Warranty(new TestProduct());
+	    		
+		System.out.println("-----A new Product is set!-----");
+		System.out.println(currentProduct);
+		System.out.println("-----We're going to use steps of " + currentProduct.getIncreasePrice() + " for the biddings.-----");
 	    
 	}
 	

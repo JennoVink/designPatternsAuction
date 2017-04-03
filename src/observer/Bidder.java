@@ -28,7 +28,7 @@ public abstract class Bidder implements Observer{
 	 */
 	public boolean haveEnoughBudget(boolean forFirstBid){	
 		if(forFirstBid){
-			return this.budget >= currentProduct.getHighestBid().getPrice();
+			return this.budget >= currentProduct.getStartPrice();
 		}
 		
 		return this.budget >= (currentProduct.getHighestBid().getPrice() + currentProduct.getIncreasePrice());
@@ -57,7 +57,7 @@ public abstract class Bidder implements Observer{
 		//note: when concatenating a string with an object, the .toString() method is automatically called on that object. 
 		return "Name: " + this.name + "\r\n"
 				+ "budget: €" + this.budget + ",-\r\n"
-				+ "current product bidding on: " + this.currentProduct
+				+ "current product bidding on: " + this.currentProduct + "\r\n"
 				+ "subject: " + auctioneer + "\r\n";	
 	}
 
