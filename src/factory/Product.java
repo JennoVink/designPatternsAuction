@@ -14,10 +14,15 @@ public abstract class Product {
 	protected Bid highestBid; //The highest bid.
 	protected Icon icon; //The icon of a product.
 	
-	//add icon.
+	/**
+	 * todo: add Icon param.
+	 * @param description
+	 * @param startPrice
+	 * @param lowestPrice
+	 * @param increasePrice
+	 */
 	public Product(String description, int startPrice, int lowestPrice, int increasePrice){
 		this.description = description;
-	
 		if(startPrice < lowestPrice){
 			System.out.println("the startPrice cannot be lower than the lowestPrice, default value of 100 is set now.");
 			System.out.println("Startprice: " + startPrice);
@@ -30,6 +35,7 @@ public abstract class Product {
 		this.startPrice = startPrice;	
 		this.lowestPrice = lowestPrice;
 		this.increasePrice = increasePrice;
+
 		//set the 'highestBid' to a nullBidder.
 		this.highestBid = new Bid(null, 1);
 	}
@@ -118,7 +124,7 @@ public abstract class Product {
 	public final int getIncreasePrice(){
 		return increasePrice;
 	}
-	
+
 	/**
 	 * method that lowers the price, if no one makes a bid to a product.
 	 * @return true if the price is successfully lowered, false if the Auctioneer should

@@ -1,4 +1,6 @@
-package observer;import java.util.Collections;
+package observer;
+import java.util.Collections;
+
 
 import decorator.Decorator;
 import decorator.GiftPaper;
@@ -9,17 +11,16 @@ import factory.AbstractFactory;
 import factory.Bike;
 import factory.Car;
 import factory.Product;
-import factory.ProductFactory;
 import noPattern.Bid;
 import testingPleaseDelete.BrokeBidder;
 import testingPleaseDelete.TestProduct;
 
 public class Auctioneer extends Subject implements Observer{
 	public static void main(String[] args){
-		System.out.println("Hello friend. Hello, friend.");
+		System.out.println("Hello friend. Hello, friend. Welcome to the animal auction");
 				
 		SimpleTimer timer = new SimpleTimer();
-		AbstractFactory productFactory = new ProductFactory();
+		AbstractFactory productFactory = null;
 		Auctioneer auctioneer = new Auctioneer(productFactory, timer);
 		
 		//let the timer know someone is watching him.
@@ -35,6 +36,7 @@ public class Auctioneer extends Subject implements Observer{
 		auctioneer.registerObserver(bidder);
 		
 		auctioneer.startAuction();
+		
 		/*
 //		for(int i = 0; i < 300; i++)
 //		{
@@ -103,7 +105,6 @@ public class Auctioneer extends Subject implements Observer{
 		System.out.println(currentProduct);
 		System.out.println("-----We're going to use steps of " + currentProduct.getIncreasePrice() + " for the biddings.-----");
 		System.out.println("-----The Product'll not go away for a price lower than " + currentProduct.getLowestPrice() + ". Happy bidding everyone!-----");
-
 	}
 	
 	public void notifyObservers() {
@@ -190,7 +191,7 @@ public class Auctioneer extends Subject implements Observer{
 		return "the auctioneer";
 	}
 	
-	private void printInformation() {
+	public void printInformation() {
 		System.out.println("---auctioneer-info---");
 		System.out.println("---currentProduct: " + currentProduct);
 		System.out.println("---amount of bidders at the auction: " + observers.size());
