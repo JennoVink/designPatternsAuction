@@ -11,6 +11,7 @@ import factory.AbstractFactory;
 import factory.Bike;
 import factory.Car;
 import factory.Product;
+import factory.ProductFactory;
 import noPattern.Bid;
 import testingPleaseDelete.BrokeBidder;
 import testingPleaseDelete.TestProduct;
@@ -20,7 +21,7 @@ public class Auctioneer extends Subject implements Observer{
 		System.out.println("Hello friend. Hello, friend. Welcome to the animal auction");
 				
 		SimpleTimer timer = new SimpleTimer();
-		AbstractFactory productFactory = null;
+		AbstractFactory productFactory = new ProductFactory();
 		Auctioneer auctioneer = new Auctioneer(productFactory, timer);
 		
 		//let the timer know someone is watching him.
