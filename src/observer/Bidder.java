@@ -57,8 +57,8 @@ public abstract class Bidder implements Observer{
 		//note: when concatenating a string with an object, the .toString() method is automatically called on that object. 
 		return "Name: " + this.name + "\r\n"
 				+ "budget: €" + this.budget + ",-\r\n"
-				+ "current product bidding on: " + this.currentProduct + "\r\n"
-				+ "subject: " + auctioneer + "\r\n";	
+				+ "current product bidding on: " + this.currentProduct + "\r\n";
+//				+ "subject: " + auctioneer + "\r\n";	
 	}
 
 	/**
@@ -68,7 +68,7 @@ public abstract class Bidder implements Observer{
 	 */
 	public void takeBudget(int price) {
 		if(price > budget){
-			throw new IllegalArgumentException("meer price dan budget bij de bidder");
+			throw new IllegalArgumentException("Meer price dan budget bij de bidder.");
 		}
 		this.budget -= price;
 		

@@ -130,14 +130,15 @@ public abstract class Product {
 			
 			//set a highestBid to the new startPrice.
 			highestBid = new Bid(null, startPrice);
-			
-//			syncStartPrice();
 			return true;
 		}
 		//else: the product'll not be sold in the auction... the auctioneer'll skip this product.
 		return false;
 	}
 	
+	/**
+	 * Bug fix: sometimes the startprice wasn't in sync with the getStartPrice method...
+	 */
 	public void syncStartPrice(){
 		this.startPrice = getStartPrice();
 	}
@@ -148,8 +149,6 @@ public abstract class Product {
 				+ "Start price: " + this.startPrice + " (increasing with " + this.getIncreasePrice() + ")\r\n"
 				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() : "-none-" + "\r\n");
 //				+ "Current highest bid: " + highestBid.getPriceString() + "\r\n";
-		
-		
 	}
 	
 

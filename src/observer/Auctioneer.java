@@ -26,10 +26,12 @@ public class Auctioneer extends Subject implements Observer{
 		timer.registerObserver(auctioneer);
 		
 		//now it's time for some bidders:
-		Bidder bidder = new BrokeBidder(200, "Japse de hond", auctioneer);
+//		Bidder bidder = new BrokeBidder(200, "Japse de hond", auctioneer);
+		Bidder bidder = new RandomBidder(200, "Japse de hond", auctioneer);
 		auctioneer.registerObserver(bidder);
 		
-		bidder = new BrokeBidder(200, "Foxie het konijn", auctioneer);
+//		bidder = new BrokeBidder(200, "Foxie het konijn", auctioneer);
+		bidder = new RandomBidder(200, "Foxie het konijn", auctioneer);
 		auctioneer.registerObserver(bidder);
 		
 		auctioneer.startAuction();
@@ -46,6 +48,8 @@ public class Auctioneer extends Subject implements Observer{
 	private AbstractFactory productFactory;
 	private Subject timer;
 	
+	private int notSoldCounter;
+	
 	//this is painful... The SimpleTimer class now has a counter, and so do the Auctioneer...
 	private int count;
 	
@@ -54,6 +58,7 @@ public class Auctioneer extends Subject implements Observer{
 			System.out.println("No ProductFactory and/or Timer given to the auctioneer. Aborting...");
 			System.exit(0);
 		}
+		this.notSoldCounter = 0;
 		this.productFactory = productFactory;
 		this.timer = timer;
 	}
@@ -97,7 +102,8 @@ public class Auctioneer extends Subject implements Observer{
 		System.out.println("-----A new Product is set!-----");
 		System.out.println(currentProduct);
 		System.out.println("-----We're going to use steps of " + currentProduct.getIncreasePrice() + " for the biddings.-----");
-	    
+		System.out.println("-----The Product'll not go away for a price lower than " + currentProduct.getLowestPrice() + ". Happy bidding everyone!-----");
+
 	}
 	
 	public void notifyObservers() {
@@ -159,6 +165,12 @@ public class Auctioneer extends Subject implements Observer{
 			//try to lower the price.
 			if(!currentProduct.lowerPrice()){
 				System.out.println("Product " + currentProduct.getDescription() + " not sold due to the lack of interest.");
+				notSoldCounter++;
+				//Stop the auction if 10 times in a row a product is not sold.
+				if(notSoldCounter >= 10){
+					System.out.println("The auction is stopped, because " + notSoldCounter + " products are not sold due the lack of budget.");
+					stopAuction();
+				}
 			} else {
 				System.out.println("---------------Not sold! lowered the price---------------");
 				//price is successfully lowered, no new product must be made.
@@ -170,7 +182,7 @@ public class Auctioneer extends Subject implements Observer{
 			Collections.shuffle(observers);
 			currentProduct.setProductSold();
 		}
-
+		notSoldCounter = 0;
 		return true;
 	}
 	
