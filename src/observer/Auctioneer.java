@@ -91,8 +91,8 @@ public class Auctioneer extends Subject implements Observer{
 	public void setNewProduct(){
 	    Collections.shuffle(observers);
 		
-		this.currentProduct = productFactory.generateRandomProduct();
-	    //this.currentProduct = new Warranty(new TestProduct());
+//		this.currentProduct = productFactory.generateRandomProduct();
+	    this.currentProduct = new Warranty(new TestProduct());
 	    		
 		System.out.println("-----A new Product is set!-----");
 		System.out.println(currentProduct);

@@ -2,9 +2,6 @@ package factory;
 
 import virtualProxy.Icon;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import noPattern.Bid;
 import observer.Bidder;
 
@@ -133,6 +130,8 @@ public abstract class Product {
 			
 			//set a highestBid to the new startPrice.
 			highestBid = new Bid(null, startPrice);
+			
+//			syncStartPrice();
 			return true;
 		}
 		//else: the product'll not be sold in the auction... the auctioneer'll skip this product.
@@ -144,11 +143,11 @@ public abstract class Product {
 	}
 	
 	@override
-	public String toString(){
+	public String toString(){	
 		return "Product: " + this.getDescription() + "\r\n"
-				+ "Start price: " + this.getStartPrice() + " (increasing with " + this.getIncreasePrice() + ")\r\n"
-//				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() : "-none-" + "\r\n");
-				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() + "" : "-none-" + "\r\n");
+				+ "Start price: " + this.startPrice + " (increasing with " + this.getIncreasePrice() + ")\r\n"
+				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() : "-none-" + "\r\n");
+//				+ "Current highest bid: " + highestBid.getPriceString() + "\r\n";
 		
 		
 	}
