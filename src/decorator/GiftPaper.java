@@ -12,7 +12,7 @@ public class GiftPaper extends Decorator {
 	{
 		return wrappedProduct.getDescription() + ", wrapped in gift paper";
 	}
-	public int getPrice()
+	public int getStartPrice()
 	{
 		return (int)(wrappedProduct.getStartPrice() * 1.05);  
 	}

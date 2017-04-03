@@ -17,5 +17,5 @@ public abstract class Decorator extends Product {
 	//Gives the description to Product.
 	public abstract String getDescription();
 	//Gives the price to Product
-	public abstract int getPrice();
+	public abstract int getStartPrice();
 }

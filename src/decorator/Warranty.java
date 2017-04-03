@@ -12,7 +12,7 @@ public class Warranty extends Decorator {
 	{
 		return wrappedProduct.getDescription() + ", with warranty";
 	}
-	public int getPrice()
+	public int getStartPrice()
 	{
 		return (int)(wrappedProduct.getStartPrice() * 1.2); 
 	}

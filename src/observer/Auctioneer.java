@@ -2,9 +2,12 @@ package observer;import java.util.Collections;
 
 import decorator.Decorator;
 import decorator.GiftPaper;
+import decorator.Warranty;
+import decorator.Maintenance;
 import decorator.XLSize;
 import factory.AbstractFactory;
 import factory.Bike;
+import factory.Car;
 import factory.Product;
 import factory.ProductFactory;
 import noPattern.Bid;
@@ -34,7 +37,7 @@ public class Auctioneer extends Subject implements Observer{
 		for(int i = 0; i < 300; i++)
 		{
 			Product p = productFactory.generateRandomProduct();
-			System.out.println( i + "   " + p.getDescription());
+			System.out.println(p);
 		}
 	}
 	

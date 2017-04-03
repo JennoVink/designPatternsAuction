@@ -99,7 +99,7 @@ public abstract class Product {
 	 * The startPrice of a product is the price the auctioneer'll start the bidding at.
 	 * @return startPrice
 	 */
-	public final int getStartPrice(){
+	public int getStartPrice(){
 		return startPrice;
 	}
 	
@@ -134,15 +134,15 @@ public abstract class Product {
 	}
 	
 	public String toString(){
-		return "Product: " + description + "\r\n"
-				+ "Start price: " + startPrice + "\r\n"
+		return "Product: " + this.getDescription() + "\r\n"
+				+ "Start price: " + this.getStartPrice() + "\r\n"
 				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() + "\r\n" : "-none-\r\n");
 		
 	}
 
 	/**
 	 * method that lowers the price, if no one makes a bid to a product.
-	 * @return true if the price is successfully lowered, false if the Auctioneer shoud
+	 * @return true if the price is successfully lowered, false if the Auctioneer should
 	 * skip this product because it'll not be sold.
 	 */
 	public boolean lowerPrice() {	

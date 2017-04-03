@@ -13,7 +13,7 @@ public class XLSize extends Decorator {
 	{
 		return wrappedProduct.getDescription() + ", in XL size";
 	}
-	public int getPrice()
+	public int getStartPrice()
 	{
 		return (int)(wrappedProduct.getStartPrice() * 1.4);
 	}
