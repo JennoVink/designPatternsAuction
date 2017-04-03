@@ -27,8 +27,8 @@ public abstract class Bidder implements Observer{
 	 * @return true if the bidder has enough budget, false if not.
 	 */
 	public boolean haveEnoughBudget(boolean forFirstBid){	
-		if(forFirstBid){
-			return this.budget >= currentProduct.getStartPrice();
+		if(forFirstBid){		
+			return this.budget >= currentProduct.getHighestBid().getPrice();
 		}
 		
 		return this.budget >= (currentProduct.getHighestBid().getPrice() + currentProduct.getIncreasePrice());

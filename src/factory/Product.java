@@ -143,7 +143,7 @@ public abstract class Product {
 		this.startPrice = getStartPrice();
 	}
 	
-	@override
+	@Override
 	public String toString(){	
 		return "Product: " + this.getDescription() + "\r\n"
 				+ "Start price: " + this.startPrice + " (increasing with " + this.getIncreasePrice() + ")\r\n"
