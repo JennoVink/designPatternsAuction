@@ -65,21 +65,18 @@ public class ImageView{
           	
 		try 
 		{  
-			URL url = new URL("https://img.ifcdn.com/images/7f55ce61298ac48674b7ad85141806963ba5a2db1998415fe08407fdf66b2ac4_1.jpg");
-			
-            frame = new JFrame();
-            JPanel jp = new JPanel();
-            jp.setPreferredSize(new Dimension(400, 800));
-            frame.getContentPane().add(jp);
+			frame = new JFrame();
             frame.setVisible(true);
-
+            frame.setSize(1000, 800);
             
-            Icon icon = new ImageProxy(imageURL);
+            //kan alleen niet onze url laden?
+			URL url = new URL("http://theslideshow.net/#simple/car");
+			System.out.println(imageURL.toString());
+            Icon icon = new ImageProxy(url);
+            
             System.out.println("Load image into frame...");
-            JLabel picLabel = new JLabel(icon);
-            frame.getContentPane().add(picLabel);
-            
-              
+            frame.getContentPane().add(new JLabel(icon));
+            frame.setPreferredSize(new Dimension(JLabel.WIDTH, JLabel.HEIGHT)); 
         } 
 		catch (Exception exp) 
 		{

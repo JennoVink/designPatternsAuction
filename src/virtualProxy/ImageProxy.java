@@ -24,8 +24,7 @@ public class ImageProxy implements Icon {
 		{
 			return imageIcon.getIconWidth();
 		} 
-		
-		return 800;
+		return 200;
 		
 	}
 
@@ -35,8 +34,7 @@ public class ImageProxy implements Icon {
 		{
 			return imageIcon.getIconHeight();        
 		} 
-		
-		return 600;        
+		return 200;        
 			
 	}
 
@@ -48,7 +46,7 @@ public class ImageProxy implements Icon {
 		} 
 		else 
 		{
-			g.drawString("Loading image, please wait...", x+300, y+190);
+			g.drawString("Loading image, please wait...", x, y);
 			if(!retrieving)
 			{
 				retrieving = true;
@@ -58,10 +56,8 @@ public class ImageProxy implements Icon {
 					{
 						try 
 						{
-							
-							imageIcon = new ImageIcon(imageURL, "Product Image");
+							imageIcon = new ImageIcon(imageURL, "ProductImage");
 							c.repaint();
-							
 						}
 						catch(Exception e)
 						{

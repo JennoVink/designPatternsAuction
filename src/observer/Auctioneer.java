@@ -20,46 +20,46 @@ import virtualProxy.ImageView;
 
 public class Auctioneer extends Subject implements Observer{
 	public static void main(String[] args){
-		System.out.println("Hello friend. Hello, friend. Welcome to the animal auction");
-				
-		SimpleTimer timer = new SimpleTimer();
-		
+//		System.out.println("Hello friend. Hello, friend. Welcome to the animal auction");
+//				
+//		SimpleTimer timer = new SimpleTimer();
+//		
 		AbstractFactory productFactory = new ProductFactory();
-		Auctioneer auctioneer = new Auctioneer(productFactory, timer);
-
-		//let the timer know someone is watching him.
-		timer.registerObserver(auctioneer);
+//		Auctioneer auctioneer = new Auctioneer(productFactory, timer);
+//
+//		//let the timer know someone is watching him.
+//		timer.registerObserver(auctioneer);
+//		
+//		//now it's time for some bidders:
+////		Bidder bidder = new BrokeBidder(2000, "Japse de hond", auctioneer);
+//		
+//		Bidder bidder = new RandomBidder(2000, "Japse de hond", auctioneer);
+//		auctioneer.registerObserver(bidder);
+//		Bidder snipeBidder = new SniperBidder(2000, "420 noscope sniper", auctioneer);
+//		auctioneer.registerObserver(snipeBidder);
+//		
+//		
+//		
+////		bidder = new BrokeBidder(2000, "Foxie het konijn", auctioneer);
+//		
+//		bidder = new RandomBidder(2000, "Foxie het konijn", auctioneer);
+//		auctioneer.registerObserver(bidder);
+//		snipeBidder = new SniperBidder(2000, "Sniper 101", auctioneer);
+//		auctioneer.registerObserver(snipeBidder);
+//	
+//		auctioneer.startAuction();
 		
-		//now it's time for some bidders:
-//		Bidder bidder = new BrokeBidder(2000, "Japse de hond", auctioneer);
 		
-		Bidder bidder = new RandomBidder(2000, "Japse de hond", auctioneer);
-		auctioneer.registerObserver(bidder);
-		Bidder snipeBidder = new SniperBidder(2000, "420 noscope sniper", auctioneer);
-		auctioneer.registerObserver(snipeBidder);
-		
-		
-		
-//		bidder = new BrokeBidder(2000, "Foxie het konijn", auctioneer);
-		
-		bidder = new RandomBidder(2000, "Foxie het konijn", auctioneer);
-		auctioneer.registerObserver(bidder);
-		snipeBidder = new SniperBidder(2000, "Sniper 101", auctioneer);
-		auctioneer.registerObserver(snipeBidder);
-	
-		auctioneer.startAuction();
-		
-		
-//		for(int i = 0; i < 5; i++)
-//		{
-//			Product p = productFactory.generateProduct("Plane");
-//			try {
-//				p.paintIcon();
-//			} catch (MalformedURLException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		} 
+		for(int i = 0; i < 5; i++)
+		{
+			Product p = productFactory.generateProduct("Plane");
+			try {
+				p.paintIcon();
+			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} 
 	}
 	
 	private Product currentProduct;
@@ -69,7 +69,7 @@ public class Auctioneer extends Subject implements Observer{
 	
 	private int notSoldCounter;
 	
-	//this is painful... The SimpleTimer class now has a counter, and so do the Auctioneer...
+	//this is painful... The SimpleTimer class now has a counter, and so does the Auctioneer...
 	private int count;
 	
 	public Auctioneer(AbstractFactory productFactory, Subject timer){
