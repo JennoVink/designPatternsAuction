@@ -3,16 +3,20 @@ package virtualProxy;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.net.URL;
-public class ImageProxy implements Icon {
 
-	ImageIcon imageIcon;
-	URL imageURL;
-	Thread retrievalThread;
-	boolean retrieving = false;
+import javax.swing.ImageIcon;
+public class ImageProxy implements javax.swing.Icon {
+
+	private ImageIcon imageIcon;
+	private URL imageURL;
+	private Thread retrievalThread;
+	private boolean retrieving = false;
+	private ImageView ui;
 	
-	public ImageProxy(URL url)
+	public ImageProxy(URL url, ImageView ui)
 	{
 		imageURL = url;
+		this.ui = ui;
 	}
 	
 	@Override
@@ -37,15 +41,15 @@ public class ImageProxy implements Icon {
 			
 	}
 
-	@Override
-	public void paintIcon(Component c, Graphics g, int x, int y) {
+	public void paintIcon() {
 		if(imageIcon != null)
 		{
-			imageIcon.paintIcon(c,g, x, y);
+//			imageIcon.paintIcon(c,g, x, y);
+//			imageIcon.paintIcon();
 		} 
 		else 
 		{
-			g.drawString("Loading image, please wait...", x+300, y+190);
+//			g.drawString("Loading image, please wait...", x+300, y+190);
 			if(!retrieving)
 			{
 				retrieving = true;
@@ -56,7 +60,7 @@ public class ImageProxy implements Icon {
 						try 
 						{
 							imageIcon = new ImageIcon(imageURL);
-							c.repaint();
+//							c.repaint();
 							
 						}
 						catch(Exception e)
@@ -68,6 +72,12 @@ public class ImageProxy implements Icon {
 				retrievalThread.start();
 			}
 		}
+		
+	}
+
+	@Override
+	public void paintIcon(Component c, Graphics g, int x, int y) {
+		ui.paintIcon(imageURL);
 		
 	}
 }

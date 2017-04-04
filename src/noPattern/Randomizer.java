@@ -1,5 +1,7 @@
 package noPattern;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Random;
 
 public final class Randomizer {
@@ -24,5 +26,19 @@ public final class Randomizer {
 	public static int getRandomInt(int min, int max)
 	{
 		return generator.nextInt(max + 1 - min) + min;
+	}
+
+	public static URL getRandomUrl(String type) {
+		int width = Randomizer.getRandomInt(400, 500);
+		int height = Randomizer.getRandomInt(300, 400);
+		
+		try {
+			return new URL("http://loremflickr.com/" + width + "/" + height + "/" + type);
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
 	}
 }

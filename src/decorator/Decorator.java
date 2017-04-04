@@ -13,7 +13,8 @@ public abstract class Decorator extends Product {
 		super(wrappedProduct.getDescription(), 
 				wrappedProduct.getStartPrice(), 
 				wrappedProduct.getLowestPrice(), 
-				wrappedProduct.getIncreasePrice());
+				wrappedProduct.getIncreasePrice(),
+				wrappedProduct.getUrl());
 		this.wrappedProduct = wrappedProduct;	
 		
 		//note: when an object is wrapped, their constructor are also called.

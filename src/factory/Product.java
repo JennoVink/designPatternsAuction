@@ -1,7 +1,7 @@
 package factory;
 
-import virtualProxy.Icon;
 import virtualProxy.ImageProxy;
+import virtualProxy.ImageView;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,7 +16,9 @@ public abstract class Product {
 	protected int lowestPrice; //The auctioneer'll not sell the product for a price lower than the lowestPrice.
 	protected int increasePrice; //The price is increased with every bid by the increasePrice
 	protected Bid highestBid; //The highest bid.
-	protected Icon icon; //The icon of a product.
+//	protected Icon icon; //The icon of a product.
+	protected ImageView ui;
+	protected URL imageURL;
 	
 	/**
 	 * todo: add Icon param.
@@ -25,7 +27,7 @@ public abstract class Product {
 	 * @param lowestPrice
 	 * @param increasePrice
 	 */
-	public Product(String description, int startPrice, int lowestPrice, int increasePrice){
+	public Product(String description, int startPrice, int lowestPrice, int increasePrice, URL imageURL){
 		this.description = description;
 		if(startPrice < lowestPrice){
 			System.out.println("the startPrice cannot be lower than the lowestPrice, default value of 100 is set now.");
@@ -36,6 +38,8 @@ public abstract class Product {
 			lowestPrice = 100;
 		}
 		
+		this.imageURL = imageURL;
+		this.ui = new ImageView();
 		this.startPrice = startPrice;	
 		this.lowestPrice = lowestPrice;
 		this.increasePrice = increasePrice;
@@ -79,19 +83,26 @@ public abstract class Product {
 	 */
 	//question: make this method final?
 	public void paintIcon() throws MalformedURLException{
-//		icon.paintIcon();
-		Icon i = new ImageProxy(new URL("https://i.ytimg.com/vi/gYeAscy46HA/maxresdefault.jpg"));
-		//ImageComponent = new ImageComponent
+//		try {
+//			URL url = new URL("");
+//			javax.swing.Icon icon = new ImageProxy(url);
+//			ImageView.paintIcon(icon);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		ui.paintIcon(imageURL);
+		
 	}
 	
-	/**
-	 * Sets the icon variable.
-	 * @param icon
-	 */
-	public final void setIcon(Icon icon){
-		this.icon = icon;
-	}
-	
+//	/**
+//	 * Sets the icon variable.
+//	 * @param icon
+//	 */
+//	public final void setIcon(Icon icon){
+//		this.icon = icon;
+//	}
+//	
 	/**
 	 * @return the name of a person
 	 */
@@ -105,6 +116,13 @@ public abstract class Product {
 	public final Bid getHighestBid(){
 		return highestBid;
 	}
+	
+	/**
+	 * @return the imageUrl
+	 */
+	public URL getUrl() {
+		return imageURL;
+	}	
 	
 	/**
 	 * The startPrice of a product is the price the auctioneer'll start the bidding at.
@@ -174,7 +192,8 @@ public abstract class Product {
 	 */
 	public String getPriceString() {
 		return "€" + this.getStartPrice() + ",-";
-	}	
+	}
+
 	
 	
 	
