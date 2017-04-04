@@ -1,6 +1,7 @@
 package virtualProxy;
 
 import java.awt.Component;
+
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -36,8 +37,9 @@ public class ImageIcon implements Icon {
 	}
 
 	@Override
-	public void paintIcon(final Component c, Graphics g, int x, int y) {
+	public void paintIcon(Component c, Graphics g, int x, int y) {
 		c.repaint();
+
 	}
 
 	

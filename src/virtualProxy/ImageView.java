@@ -1,12 +1,18 @@
 package virtualProxy;
 
 import java.awt.EventQueue;
+import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 
@@ -18,16 +24,36 @@ public class ImageView {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ImageView window = new ImageView();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		 EventQueue.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {
+	                try {
+	                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+	                }
+
+	                try {
+	                    String path = "http://chart.finance.yahoo.com/z?s=GOOG&t=6m&q=l";
+	                    System.out.println("Get Image from " + path);
+	                    URL url = new URL(path);
+	                    BufferedImage image = ImageIO.read(url);
+	                    System.out.println("Load image into frame...");
+	                    JLabel picLabel = new JLabel();
+	                    JFrame f = new JFrame();
+	                    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	                    f.getContentPane().add(picLabel);
+	                    f.pack();
+	                    f.setLocation(200, 200);
+	                    f.setVisible(true);
+	                    
+	                    
+	                } catch (Exception exp) {
+	                    exp.printStackTrace();
+	                }
+	                
+	            }
+	        });
+
 	}
 
 	/**
@@ -41,22 +67,33 @@ public class ImageView {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
-		//ImageIcon icon = new ImageIcon();
-		try
-		{
-			URL url = new URL("https://cdn.meme.am/instances/38321563.jpg");
-			JLabel picLabel = new JLabel((Icon) new ImageIcon(url));
-		}
-		catch(MalformedURLException e)
-		{
-			//Nice exceptions Java! NOT
-		}
-		
+		  EventQueue.invokeLater(new Runnable() {
+	            @Override
+	            public void run() {
+	                try {
+	                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+	                }
+
+	                try {
+	                    String path = "https://i.ytimg.com/vi/gYeAscy46HA/maxresdefault.jpg";
+	                    System.out.println("Get Image from " + path);
+	                    URL url = new URL(path);
+	                    BufferedImage image = ImageIO.read(url);
+	                    System.out.println("Load image into frame...");
+	                    JLabel label = new JLabel(new ImageIcon(image));
+	                    JFrame f = new JFrame();
+	                    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	                    f.getContentPane().add(label);
+	                    f.pack();
+	                    f.setLocation(200, 200);
+	                    f.setVisible(true);
+	                } catch (Exception exp) {
+	                    exp.printStackTrace();
+	                }
+
+	            }
+	        });
 		
 	}
 

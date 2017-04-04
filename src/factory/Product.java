@@ -1,6 +1,10 @@
 package factory;
 
 import virtualProxy.Icon;
+import virtualProxy.ImageProxy;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import noPattern.Bid;
 import observer.Bidder;
@@ -71,10 +75,13 @@ public abstract class Product {
 	
 	/**
 	 * paints the icon/image on the screen.	
+	 * @throws MalformedURLException 
 	 */
 	//question: make this method final?
-	public void paintIcon(){
-		icon.paintIcon();
+	public void paintIcon() throws MalformedURLException{
+//		icon.paintIcon();
+		Icon i = new ImageProxy(new URL("https://i.ytimg.com/vi/gYeAscy46HA/maxresdefault.jpg"));
+		//ImageComponent = new ImageComponent
 	}
 	
 	/**

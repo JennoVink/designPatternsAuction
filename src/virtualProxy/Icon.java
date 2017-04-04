@@ -6,5 +6,5 @@ import java.awt.Graphics;
 public interface Icon {
 	abstract int getIconWidth();
 	abstract int getIconHeight();
-	abstract void paintIcon(final Component c, Graphics g, int x, int y);
+	abstract void paintIcon(Component c, Graphics g, int x, int y);
 }
