@@ -10,14 +10,18 @@ import java.net.URLConnection;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 
 public class ImageView{
 
@@ -33,79 +37,59 @@ public class ImageView{
 	 * Create the application.
 	 */
 	public ImageView() {
-//		initialize();
-	}
-
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		  EventQueue.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {
-	                try {
-	                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-	                }
-
-	                try {
-	                    String path = "https://i.ytimg.com/vi/gYeAscy46HA/maxresdefault.jpg";
-	                    System.out.println("Get Image from " + path);
-	                    URL url = new URL(path);
-	                    BufferedImage image = ImageIO.read(url);
-	                    System.out.println("Load image into frame...");
-	                    JLabel label = new JLabel(new ImageIcon(image));    
-	                    
-	                    frame = new JFrame();
-	                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	                    frame.getContentPane().add(label);
-	                    frame.pack();
-	                    frame.setLocation(200, 200);
-	                    frame.setVisible(true);
-	                    
-	                } catch (Exception exp) {
-	                    exp.printStackTrace();
-	                }
-
-	            }
-	        });
 		
 	}
+
 	
 	public void paintIcon(URL imageURL){
-		  EventQueue.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {
-	                try {
-	                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-	                }
+//		  EventQueue.invokeLater(new Runnable() {
+//	            @Override
+//	            public void run() {
+//	                try {
+//	                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//	                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
+//	                }
+//
+//	                
+//
+//	            }
+//	        });
+		  
+		    	
+//          	final HttpURLConnection connection = (HttpURLConnection) imageURL
+//          	        .openConnection();
+//          	connection.setRequestProperty(
+//          	    "User-Agent",
+//          	    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
+//          	final BufferedImage image = ImageIO.read(connection.getInputStream());
+          	
+		try 
+		{  
+			URL url = new URL("https://img.ifcdn.com/images/7f55ce61298ac48674b7ad85141806963ba5a2db1998415fe08407fdf66b2ac4_1.jpg");
+			
+            frame = new JFrame();
+            JPanel jp = new JPanel();
+            jp.setPreferredSize(new Dimension(400, 800));
+            frame.getContentPane().add(jp);
+            frame.setVisible(true);
 
-	                try {    	
-	                	final HttpURLConnection connection = (HttpURLConnection) imageURL
-	                	        .openConnection();
-	                	connection.setRequestProperty(
-	                	    "User-Agent",
-	                	    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
-	                	final BufferedImage image = ImageIO.read(connection.getInputStream());
-	                	
-	                    System.out.println("Load image into frame...");
-	                    JLabel label = new JLabel(new ImageIcon(image));    
-	                    
-	                    frame = new JFrame();
-	                    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	                    frame.getContentPane().add(label);
-	                    frame.pack();
-	                    frame.setLocation(200, 200);
-	                    frame.setVisible(true);
-	                    
-	                } catch (Exception exp) {
-	                    exp.printStackTrace();
-	                }
-
-	            }
-	        });
+            
+            Icon icon = new ImageProxy(imageURL);
+            System.out.println("Load image into frame...");
+            JLabel picLabel = new JLabel(icon);
+            frame.getContentPane().add(picLabel);
+            
+              
+        } 
+		catch (Exception exp) 
+		{
+              exp.printStackTrace();
+        }
 		
+	}
+	public ImageView getImageView()
+	{
+		return this;
 	}
 
 }
