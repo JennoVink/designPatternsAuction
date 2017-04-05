@@ -5,7 +5,11 @@ public class Bike extends Product {
 
 	public Bike()
 	{
-		super("Bike", Randomizer.getRandomInt(10, 20), Randomizer.getRandomInt(1, 5), Randomizer.getRandomInt(1, 5));
+		super("Bike", 
+				Randomizer.getRandomInt(10, 20), 
+				Randomizer.getRandomInt(1, 5), 
+				Randomizer.getRandomInt(1, 5), 
+				Randomizer.getRandomUrl("bicyle"));
 	}
 	
 	public String getDescription()

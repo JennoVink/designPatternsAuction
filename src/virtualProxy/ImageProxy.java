@@ -3,12 +3,15 @@ package virtualProxy;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.net.URL;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 public class ImageProxy implements Icon {
 
-	ImageIcon imageIcon;
-	URL imageURL;
-	Thread retrievalThread;
-	boolean retrieving = false;
+	private ImageIcon imageIcon;
+	private URL imageURL;
+	private Thread retrievalThread;
+	private boolean retrieving = false;
 	
 	public ImageProxy(URL url)
 	{
@@ -21,8 +24,7 @@ public class ImageProxy implements Icon {
 		{
 			return imageIcon.getIconWidth();
 		} 
-		
-		return 800;
+		return 200;
 		
 	}
 
@@ -32,22 +34,22 @@ public class ImageProxy implements Icon {
 		{
 			return imageIcon.getIconHeight();        
 		} 
-		
-		return 600;        
+		return 200;        
 			
 	}
 
-	@Override
-	public void paintIcon(Component c, Graphics g, int x, int y) {
+	public void paintIcon(final Component c, Graphics  g, int x,  int y) {	
+//		System.out.println("Reached paintIcon()");
 		if(imageIcon != null)
 		{
-			imageIcon.paintIcon(c,g, x, y);
+			imageIcon.paintIcon(c, g, x, y);
 		} 
 		else 
 		{
-			g.drawString("Loading image, please wait...", x+300, y+190);
+			g.drawString("Loading image, please wait...", x, y);
 			if(!retrieving)
 			{
+//				System.out.println("now retrieving an image");
 				retrieving = true;
 				retrievalThread = new Thread(new Runnable() 
 				{
@@ -55,9 +57,8 @@ public class ImageProxy implements Icon {
 					{
 						try 
 						{
-							imageIcon = new ImageIcon(imageURL);
+							imageIcon = new ImageIcon(imageURL, "ProductImage");
 							c.repaint();
-							
 						}
 						catch(Exception e)
 						{

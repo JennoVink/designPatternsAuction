@@ -1,4 +1,5 @@
 package observer;
+import java.net.MalformedURLException;
 import java.util.Collections;
 
 
@@ -13,37 +14,51 @@ import factory.Car;
 import factory.Product;
 import factory.ProductFactory;
 import noPattern.Bid;
+import noPattern.Randomizer;
 import testingPleaseDelete.BrokeBidder;
 import testingPleaseDelete.TestProduct;
+import virtualProxy.ImageView;
 
 public class Auctioneer extends Subject implements Observer{
 	public static void main(String[] args){
 		System.out.println("Hello friend. Hello, friend. Welcome to the animal auction");
 				
 		SimpleTimer timer = new SimpleTimer();
-		AbstractFactory productFactory = new ProductFactory();
-		Auctioneer auctioneer = new Auctioneer(productFactory, timer);
 		
+		ImageView ui = new ImageView();
+		
+		AbstractFactory productFactory = new ProductFactory();
+		Auctioneer auctioneer = new Auctioneer(productFactory, timer, ui);
+
 		//let the timer know someone is watching him.
 		timer.registerObserver(auctioneer);
 		
 		//now it's time for some bidders:
-//		Bidder bidder = new BrokeBidder(2000, "Japse de hond", auctioneer);
-		Bidder bidder = new RandomBidder(2000, "Japse de hond", auctioneer);
+		Bidder bidder = new RandomBidder(2000, "Japse de hond 1", auctioneer);
 		auctioneer.registerObserver(bidder);
 		
-//		bidder = new BrokeBidder(2000, "Foxie het konijn", auctioneer);
-		bidder = new RandomBidder(2000, "Foxie het konijn", auctioneer);
+		Bidder snipeBidder = new SniperBidder(2000, "420 noscope sniper", auctioneer);
+		auctioneer.registerObserver(snipeBidder);
+				
+		bidder = new RandomBidder(2000, "Foxie het konijn 2", auctioneer);
 		auctioneer.registerObserver(bidder);
 		
+		bidder = new RandomBidder(2000, "Foxie het konijn 3", auctioneer);
+		auctioneer.registerObserver(bidder);
+		
+		bidder = new DoubleDownBidder(5000, "Double downer", auctioneer);
+		auctioneer.registerObserver(bidder);
+		
+		snipeBidder = new SniperBidder(2000, "Sniper 101", auctioneer);
+		auctioneer.registerObserver(snipeBidder);
+
 		auctioneer.startAuction();
 		
-		/*
-//		for(int i = 0; i < 300; i++)
+		
+//		for(int i = 0; i < 500; i++)
 //		{
-//			Product p = productFactory.generateRandomProduct();
-//			System.out.println(p);
-//		} */
+//			System.out.println(Randomizer.getRandomInt(1, 2));
+//		}
 	}
 	
 	private Product currentProduct;
@@ -51,18 +66,21 @@ public class Auctioneer extends Subject implements Observer{
 	private AbstractFactory productFactory;
 	private Subject timer;
 	
+	private ImageView ui;
+	
 	private int notSoldCounter;
 	
-	//this is painful... The SimpleTimer class now has a counter, and so do the Auctioneer...
+	//this is painful... The SimpleTimer class now has a counter, and so does the Auctioneer...
 	private int count;
 	
-	public Auctioneer(AbstractFactory productFactory, Subject timer){
-		if(productFactory == null || timer == null){
-			System.out.println("No ProductFactory and/or Timer given to the auctioneer. Aborting...");
+	public Auctioneer(AbstractFactory productFactory, Subject timer, ImageView ui){
+		if(productFactory == null || timer == null || ui == null){
+			System.out.println("No ProductFactory and/or Timer and/or ImageView given to the auctioneer. Aborting...");
 			System.exit(0);
 		}
 		this.notSoldCounter = 0;
 		this.productFactory = productFactory;
+		this.ui = ui;
 		this.timer = timer;
 	}
 	
@@ -95,12 +113,14 @@ public class Auctioneer extends Subject implements Observer{
 	/**
 	 * Sets a new Product to auction. This is in a seperate method so the shuffeling of the observers
 	 * can easily be managed. 
+	 * @throws MalformedURLException 
 	 */
-	public void setNewProduct(){
+	public void setNewProduct() {
 	    Collections.shuffle(observers);
 		
 		this.currentProduct = productFactory.generateRandomProduct();
-//	    this.currentProduct = new Warranty(new TestProduct());
+		ui.paintIcon(currentProduct.getUrl());
+//			this.currentProduct.paintIcon();
 	    		
 		System.out.println("-----A new Product is set!-----");
 		System.out.println(currentProduct);

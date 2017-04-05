@@ -71,7 +71,6 @@ public class ProductFactory implements AbstractFactory {
 			return addDecorators(product, decoratorStack);
 		}
 			
-		//System.out.println(product.getDescription());
 		return product;
 	}
 

@@ -2,99 +2,68 @@ package virtualProxy;
 
 import java.awt.EventQueue;
 import java.awt.image.BufferedImage;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Dimension;
 
-public class ImageView {
+public class ImageView{
 
 	private JFrame frame;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		 EventQueue.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {
-	                try {
-	                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-	                }
-
-	                try {
-	                    String path = "http://chart.finance.yahoo.com/z?s=GOOG&t=6m&q=l";
-	                    System.out.println("Get Image from " + path);
-	                    URL url = new URL(path);
-	                    BufferedImage image = ImageIO.read(url);
-	                    System.out.println("Load image into frame...");
-	                    JLabel picLabel = new JLabel();
-	                    JFrame f = new JFrame();
-	                    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	                    f.getContentPane().add(picLabel);
-	                    f.pack();
-	                    f.setLocation(200, 200);
-	                    f.setVisible(true);
-	                    
-	                    
-	                } catch (Exception exp) {
-	                    exp.printStackTrace();
-	                }
-	                
-	            }
-	        });
-
-	}
+	private JLabel picLabel;
+	
+	private URLConnection uc;
 
 	/**
 	 * Create the application.
 	 */
 	public ImageView() {
-		initialize();
+		frame = new JFrame();
+        frame.setVisible(true);
+        frame.setSize(600, 600);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        picLabel = new JLabel();
+        frame.getContentPane().add(picLabel);
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
-	private void initialize() {
-		  EventQueue.invokeLater(new Runnable() {
-	            @Override
-	            public void run() {
-	                try {
-	                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-	                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-	                }
-
-	                try {
-	                    String path = "https://i.ytimg.com/vi/gYeAscy46HA/maxresdefault.jpg";
-	                    System.out.println("Get Image from " + path);
-	                    URL url = new URL(path);
-	                    BufferedImage image = ImageIO.read(url);
-	                    System.out.println("Load image into frame...");
-	                    JLabel label = new JLabel(new ImageIcon(image));
-	                    JFrame f = new JFrame();
-	                    f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	                    f.getContentPane().add(label);
-	                    f.pack();
-	                    f.setLocation(200, 200);
-	                    f.setVisible(true);
-	                } catch (Exception exp) {
-	                    exp.printStackTrace();
-	                }
-
-	            }
-	        });
+	
+	public void paintIcon(URL imageURL){	
+		try 
+		{  
+            //set the proper user agent
+            System.setProperty("http.agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
+                       
+            Icon icon = new ImageProxy(imageURL);
+            picLabel.setIcon(icon);
+            
+            frame.setPreferredSize(new Dimension(JLabel.WIDTH, JLabel.HEIGHT)); 
+        } 
+		catch (Exception exp) 
+		{
+              exp.printStackTrace();
+        }
 		
+	}
+	public ImageView getImageView()
+	{
+		return this;
 	}
 
 }
