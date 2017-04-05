@@ -1,6 +1,5 @@
 package factory;
 
-import virtualProxy.ImageProxy;
 import virtualProxy.ImageView;
 
 import java.net.MalformedURLException;
@@ -10,15 +9,14 @@ import noPattern.Bid;
 import observer.Bidder;
 
 public abstract class Product {
-	protected Bidder owner; // If the product is sold is decided by this
+	private Bidder owner; // If the product is sold is decided by this
 							// variable.
-	protected String description;
-	protected int startPrice;
-	protected int lowestPrice;
-	protected int increasePrice;
-	protected Bid highestBid; // The highest bid at this moment.
-	protected ImageView ui;
-	protected URL imageURL;
+	private String description;
+	private int startPrice;
+	private int lowestPrice;
+	private int increasePrice;
+	private Bid highestBid; // The highest bid at this moment.
+	private URL imageURL;
 
 	/**
 	 * When a subclass is initiated, this method is also called.
@@ -89,17 +87,8 @@ public abstract class Product {
 	}
 
 	/**
-	 * paints the icon/image on the screen.
-	 * 
-	 * @throws MalformedURLException
-	 */
-	// question: make this method final?
-	public void paintIcon() throws MalformedURLException {
-		ui.paintIcon(imageURL);
-	}
-
-	/**
-	 * @return the name of a person
+	 * @return the name of a person Not final: decorators needs to add an extra
+	 *         description.
 	 */
 	public String getDescription() {
 		return description;
@@ -115,13 +104,14 @@ public abstract class Product {
 	/**
 	 * @return the imageUrl
 	 */
-	public URL getUrl() {
+	public final URL getUrl() {
 		return imageURL;
 	}
 
 	/**
 	 * The startPrice of a product is the price the auctioneer'll start the
-	 * bidding at.
+	 * bidding at. Note: this method is not final of course, the decorators need
+	 * to @Override this method.
 	 * 
 	 * @return startPrice
 	 */
@@ -156,7 +146,7 @@ public abstract class Product {
 	 * @return true if the price is successfully lowered, false if the
 	 *         Auctioneer should skip this product because it'll not be sold.
 	 */
-	public boolean lowerPrice() {
+	public final boolean lowerPrice() {
 		if ((startPrice - increasePrice) > lowestPrice) {
 			startPrice -= increasePrice;
 
@@ -171,9 +161,10 @@ public abstract class Product {
 
 	/**
 	 * Bug fix: sometimes the startprice wasn't in sync with the getStartPrice
-	 * method...
+	 * method. This method is used to fix that. The reason for this bug is that
+	 * the Product object is wrapped and the price is calculated wrongly.
 	 */
-	public void syncStartPrice() {
+	public final void syncStartPrice() {
 		this.startPrice = getStartPrice();
 	}
 

@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public final class Randomizer {
 
-	public static Random generator = new Random();
+	private static Random generator = new Random();
 	
 	public static int getRandomInt()
 	{
@@ -43,8 +43,8 @@ public final class Randomizer {
 
 	/**
 	 * Gets a random url from the type @param type. The width and the height are random.
-	 * @param type
-	 * @return
+	 * @param type car, plane or bike in this case.
+	 * @return URL with the random image (also random width and height).
 	 */
 	public static URL getRandomUrl(String type) {
 		int width = Randomizer.getRandomInt(400, 500);

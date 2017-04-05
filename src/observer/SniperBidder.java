@@ -40,7 +40,7 @@ public class SniperBidder extends Bidder {
 	 * Check if the bidder sniped the item before so he 
 	 * wont try sniping again, avoiding a sniper war.
 	 */
-	protected boolean didISnipe(Product currentProduct)
+	private boolean didISnipe(Product currentProduct)
 	{
 		if(lastProduct != null)
 		{

@@ -1,12 +1,11 @@
 package factory;
 
-import decorator.Decorator;
 import decorator.GiftPaper;
 import decorator.Maintenance;
 import decorator.Warranty;
 import decorator.XLSize;
 import noPattern.Randomizer;
-import testingPleaseDelete.TestProduct;
+import testingPurpose.TestProduct;
 
 import java.util.Collections;
 import java.util.Stack;
@@ -19,17 +18,14 @@ public class ProductFactory implements AbstractFactory {
 	public Product generateRandomProduct() {
 		switch (Randomizer.getRandomInt(1, 3)) {
 		case 1:
-			return new Car();
-//			return addDecorators(new Car(), null);
+			return addDecorators(new Car(), null);
 		case 2:
-			return new Plane();
-	//		return addDecorators(new Plane(), null);
+			return addDecorators(new Plane(), null);
 		case 3:
-			return new Bike();
-		//	return addDecorators(new Bike(), null);
+			return addDecorators(new Bike(), null);
 		default:
 			System.out.println("Product type not recognized, default TestProdcut is set.");
-			return addDecorators(new TestProduct(), null);
+			return addDecorators(new testingPurpose.TestProduct(), null);
 		}
 	}
 
@@ -97,8 +93,7 @@ public class ProductFactory implements AbstractFactory {
 			return addDecorators(new Bike(), null);
 		default:
 			System.out.println("Product type not recognized, default TestProdcut is set.");
-//			return addDecorators(new TestProduct(), null);
-			return new TestProduct();
+			return addDecorators(new TestProduct(), null);
 		}
 	}
 }
