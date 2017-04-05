@@ -8,6 +8,13 @@ public abstract class Bidder implements Observer{
 	protected int budget;
 	protected Subject auctioneer;
 	
+	/**
+	 * create a Bidder.
+	 * @param budget The amount of money someone has. This is an int instead of a double
+	 * because the bids are always whole numbers (not bidding for 50 cents or something).
+	 * @param name The name of the bidder.
+	 * @param auctioneer The auctioneer he's watching.
+	 */
 	protected Bidder(int budget, String name, Subject auctioneer){
 		this.budget = budget;
 		this.name = name;
@@ -36,7 +43,7 @@ public abstract class Bidder implements Observer{
 	}
 	
 	/**
-	 * It makes no sense that a person makes two biddings after eachother.
+	 * It makes no sense that a person makes two biddings after eachother on the same product.
 	 * @return true if the Bidder object (this) is the same as the highestBidder on the current product.
 	 */
 	public final boolean amIHighestBidder()
@@ -48,6 +55,10 @@ public abstract class Bidder implements Observer{
 		return false;
 	}
 	
+	/**
+	 * The bidder receives a count from the Auctioneer (which gets it from the SimpleTimer).
+	 * Then he decides if he's going to make a bid (with the makeBid method).
+	 */
 	public void update(int count, Product product) 
 	{
 		this.currentProduct = product;

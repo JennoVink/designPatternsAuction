@@ -42,7 +42,7 @@ public class Auctioneer extends Subject implements Observer {
 		snipeBidder = new SniperBidder(2000, "Morty", auctioneer);
 		auctioneer.registerObserver(snipeBidder);
 
-		//finally: start the auction
+		// finally: start the auction
 		auctioneer.startAuction();
 	}
 
@@ -51,15 +51,28 @@ public class Auctioneer extends Subject implements Observer {
 	private AbstractFactory productFactory;
 	private Subject timer;
 
-	//the user interface:
+	// the user interface:
 	private ImageView ui;
 
+	// a counter to check if 10 products in a row are not sold due to the lack
+	// of budget of the bidders.
 	private int notSoldCounter;
 
 	// this is painful... The SimpleTimer class now has a counter, and so does
-	// the Auctioneer...
+	// the Auctioneer. This is because the Auctioneer is a Subject and an
+	// Observer at the same time.
 	private int count;
 
+	/**
+	 * Initialize the auction
+	 * 
+	 * @param productFactory
+	 *            an AbstractFactory where the products are produced.
+	 * @param timer
+	 *            a timer that counts and returns the count to the Auctioneer
+	 * @param ui
+	 *            the user interface for displaying the images.
+	 */
 	public Auctioneer(AbstractFactory productFactory, Subject timer, ImageView ui) {
 		if (productFactory == null || timer == null || ui == null) {
 			System.out.println("No ProductFactory and/or Timer and/or ImageView given to the auctioneer. Aborting...");
@@ -108,7 +121,6 @@ public class Auctioneer extends Subject implements Observer {
 
 		this.currentProduct = productFactory.generateRandomProduct();
 		ui.paintIcon(currentProduct.getUrl());
-		// this.currentProduct.paintIcon();
 
 		System.out.println("-----A new Product is set!-----");
 		System.out.println(currentProduct);
@@ -118,10 +130,12 @@ public class Auctioneer extends Subject implements Observer {
 				+ ". Happy bidding everyone!-----");
 	}
 
+	/**
+	 * notify the observers (bidders) with the current product and the count.
+	 */
 	public void notifyObservers() {
 		for (Observer bidder : observers) {
 			bidder.update(this.count, currentProduct);
-			// System.out.println(bidder);
 		}
 	}
 
@@ -139,8 +153,7 @@ public class Auctioneer extends Subject implements Observer {
 
 		switch (count) {
 		case 0:
-			// lowerPriceOrSetSold returns true if a new product needs to be
-			// made.
+			// lowerPriceOrSetSold returns true if a new product needs to be made
 			if (lowerPriceOrSetSold()) {
 				setNewProduct();
 			}
@@ -204,6 +217,7 @@ public class Auctioneer extends Subject implements Observer {
 			Collections.shuffle(observers);
 			currentProduct.setProductSold();
 		}
+		
 		notSoldCounter = 0;
 		return true;
 	}
