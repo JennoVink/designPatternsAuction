@@ -27,7 +27,8 @@ public abstract class Bidder implements Observer{
 	 * @return true if the bidder has enough budget, false if not.
 	 */
 	public boolean haveEnoughBudget(boolean forFirstBid){	
-		if(forFirstBid){		
+		if(forFirstBid)
+		{		
 			return this.budget >= currentProduct.getHighestBid().getPrice();
 		}
 		
@@ -38,14 +39,17 @@ public abstract class Bidder implements Observer{
 	 * It makes no sense that a person makes two biddings after eachother.
 	 * @return true if the Bidder object (this) is the same as the highestBidder on the current product.
 	 */
-	public final boolean amIHighestBidder(){
-		if(currentProduct.getHighestBid().getBidder() != null){
+	public final boolean amIHighestBidder()
+	{
+		if(currentProduct.getHighestBid().getBidder() != null)
+		{
 			return currentProduct.getHighestBid().getBidder().equals(this);	
 		}
 		return false;
 	}
 	
-	public void update(int count, Product product) {
+	public void update(int count, Product product) 
+	{
 		this.currentProduct = product;
 		makeBid(count);
 	}

@@ -39,7 +39,6 @@ public class ImageProxy implements Icon {
 	}
 
 	public void paintIcon(final Component c, Graphics  g, int x,  int y) {	
-//		System.out.println("Reached paintIcon()");
 		if(imageIcon != null)
 		{
 			imageIcon.paintIcon(c, g, x, y);
@@ -49,7 +48,6 @@ public class ImageProxy implements Icon {
 			g.drawString("Loading image, please wait...", x, y);
 			if(!retrieving)
 			{
-//				System.out.println("now retrieving an image");
 				retrieving = true;
 				retrievalThread = new Thread(new Runnable() 
 				{

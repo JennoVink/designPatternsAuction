@@ -2,7 +2,6 @@ package decorator;
 
 import factory.Product;
 import noPattern.Bid;
-import observer.RandomBidder;
 
 public abstract class Decorator extends Product {
 

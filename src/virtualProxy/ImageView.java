@@ -43,8 +43,11 @@ public class ImageView{
         frame.getContentPane().add(picLabel);
 	}
 
-	
-	public void paintIcon(URL imageURL){	
+	/**
+	 * Paints the icon (/current product image) according to the @param imageURL. 
+	 * @param imageURL
+	 */
+	public void paintIcon(URL imageURL)	{	
 		try 
 		{  
             //set the proper user agent
