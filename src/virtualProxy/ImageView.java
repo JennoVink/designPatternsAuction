@@ -14,7 +14,7 @@ public class ImageView{
 	private JLabel picLabel;
 	
 	/**
-	 * Create the application.
+	 * Create the application UI.
 	 */
 	public ImageView() {
 		frame = new JFrame();
@@ -35,9 +35,10 @@ public class ImageView{
             //set the proper user agent
             System.setProperty("http.agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
                        
+            //create our ImageProxy
             Icon icon = new ImageProxy(imageURL);
+            //and put it in a label
             picLabel.setIcon(icon);
-            
             frame.setPreferredSize(new Dimension(JLabel.WIDTH, JLabel.HEIGHT)); 
         } 
 		catch (Exception exp) 
@@ -46,9 +47,4 @@ public class ImageView{
         }
 		
 	}
-	public ImageView getImageView()
-	{
-		return this;
-	}
-
 }
