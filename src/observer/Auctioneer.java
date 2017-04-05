@@ -120,6 +120,7 @@ public class Auctioneer extends Subject implements Observer {
 		Collections.shuffle(observers);
 
 		this.currentProduct = productFactory.generateRandomProduct();
+		
 		ui.paintIcon(currentProduct.getUrl());
 
 		System.out.println("-----A new Product is set!-----");

@@ -6,28 +6,46 @@ import decorator.Maintenance;
 import decorator.Warranty;
 import decorator.XLSize;
 import noPattern.Randomizer;
+import testingPleaseDelete.TestProduct;
 
 import java.util.Collections;
 import java.util.Stack;
 
 public class ProductFactory implements AbstractFactory {
-	// Returns a product generated with random integers.
+
+	/**
+	 * Returns a product generated with random integers.
+	 */
 	public Product generateRandomProduct() {
 		switch (Randomizer.getRandomInt(1, 3)) {
 		case 1:
-			return addDecorators(new Car(), null);
+			return new Car();
+//			return addDecorators(new Car(), null);
 		case 2:
-			return addDecorators(new Plane(), null);
+			return new Plane();
+	//		return addDecorators(new Plane(), null);
 		case 3:
-			return addDecorators(new Bike(), null);
+			return new Bike();
+		//	return addDecorators(new Bike(), null);
+		default:
+			System.out.println("Product type not recognized, default TestProdcut is set.");
+			return addDecorators(new TestProduct(), null);
 		}
-		System.out.println("Product is null!");
-		return null;
 	}
 
-	// Adds the decorators after the creation of the product is finished the
-	// switch case inside check for duplicates and adds them to the decorator
-	// list.
+	/**
+	 * Recursive function that decorates a product randomly. First a stack is
+	 * initialized with random decorations. These decorations are applied
+	 * recursively to the product.
+	 * 
+	 * @param product
+	 *            the Product that'll get wrapped in the decorations.
+	 * @param decoratorStack
+	 *            a stack that holds the decorations (strings in this case,
+	 *            classes and dynamic constructor calling didn't work out in
+	 *            this case.
+	 * @return Product a product with(out) random decoration(s).
+	 */
 	private Product addDecorators(Product product, Stack<String> decoratorStack) {
 		if (decoratorStack == null) {
 			decoratorStack = new Stack<>();
@@ -65,8 +83,10 @@ public class ProductFactory implements AbstractFactory {
 		return product;
 	}
 
-	// Generate a product with the already defined type, following the String
-	// parameter.
+	/**
+	 * Generates a product with the already defined type, following the String
+	 * parameter.
+	 */
 	public Product generateProduct(String type) {
 		switch (type) {
 		case "Car":
@@ -75,7 +95,10 @@ public class ProductFactory implements AbstractFactory {
 			return addDecorators(new Plane(), null);
 		case "Bike":
 			return addDecorators(new Bike(), null);
+		default:
+			System.out.println("Product type not recognized, default TestProdcut is set.");
+//			return addDecorators(new TestProduct(), null);
+			return new TestProduct();
 		}
-		return null;
 	}
 }

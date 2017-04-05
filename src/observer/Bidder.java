@@ -31,7 +31,7 @@ public abstract class Bidder implements Observer {
 	 * have to decide if they want to make a bid or not.
 	 * 
 	 * @param count
-	 *            the count of the clock/SimpleTimer.
+	 *            the count of the clock/SimpleTimer at that moment.
 	 */
 	protected abstract void makeBid(int count);
 
@@ -39,7 +39,9 @@ public abstract class Bidder implements Observer {
 	 * A method that checks if the bidder is able to make a bid.
 	 * 
 	 * @param forFirstBid
-	 *            true if no one has made a bid to the product.
+	 *            true if no one has made a bid to the product. note:
+	 *            currentProduct.getHighestBid().getBidder() == null doesn't
+	 *            worked out in this case so this is a good fix.
 	 * @return true if the bidder has enough budget, false if not.
 	 */
 	public boolean haveEnoughBudget(boolean forFirstBid) {
@@ -68,6 +70,12 @@ public abstract class Bidder implements Observer {
 	 * The bidder receives a count from the Auctioneer (which gets it from the
 	 * SimpleTimer). Then he decides if he's going to make a bid (with the
 	 * makeBid method).
+	 * 
+	 * @param int
+	 *            count the count he gets from the auctioneer
+	 * @param Product
+	 *            product The product that is currently going to be sold by the
+	 *            Auctioneer.
 	 */
 	public void update(int count, Product product) {
 		this.currentProduct = product;
@@ -78,11 +86,8 @@ public abstract class Bidder implements Observer {
 	 * returns a string with information about the bidder (budget etc.)
 	 */
 	public String toString() {
-		// note: when concatenating a string with an object, the .toString()
-		// method is automatically called on that object.
 		return "Name: " + this.name + "\r\n" + "budget: €" + this.budget + ",-\r\n" + "current product bidding on: "
 				+ this.currentProduct + "\r\n";
-		// + "subject: " + auctioneer + "\r\n";
 	}
 
 	/**
@@ -90,10 +95,16 @@ public abstract class Bidder implements Observer {
 	 * enough money so the budget cannot be lower than zero.
 	 * 
 	 * @param price
+	 *            The amount of budget thats needs to be taken from a person's
+	 *            budget.
 	 */
 	public void takeBudget(int price) {
+		// this final check is just to make sure no Bidder is cheating. When a
+		// bidder is cheating, an Exception is throwed.
 		if (price > budget) {
-			throw new IllegalArgumentException("Meer price dan budget bij de bidder.");
+			// note that we prefer println's over Exception throwing. But in
+			// this case the auction can't go on.
+			throw new IllegalArgumentException("Price is higher than budget...");
 		}
 		this.budget -= price;
 

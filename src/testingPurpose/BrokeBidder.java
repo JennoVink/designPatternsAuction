@@ -1,4 +1,4 @@
-package testingPleaseDelete;
+package testingPurpose;
 
 import noPattern.Bid;
 import observer.Bidder;
