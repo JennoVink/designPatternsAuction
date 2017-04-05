@@ -3,17 +3,14 @@ package observer;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import factory.Product;
-
 /**
- * This class is responsible for counting to zero.
+ * This class is responsible for counting from five to zero.
  * This is a subject because the Auctioneer class is subscribed to the ticks of the clock.
- * 
  */
 public class SimpleTimer extends Subject {
-   private static TimerTask task = null;
-   private static Timer timer = new Timer();
-   private static int startCount = 5;
+   private TimerTask task = null;
+   private Timer timer = new Timer();
+   private int startCount = 5;
         
    public SimpleTimer(int startCount){
 	   this.startCount = startCount;
