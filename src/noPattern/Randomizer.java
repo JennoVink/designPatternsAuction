@@ -4,6 +4,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
 
+/**
+ * Class that can generates random ints, booleans etc.
+ * Also able to generate a random url (image url).
+ */
 public final class Randomizer {
 
 	public static Random generator = new Random();
@@ -49,10 +53,8 @@ public final class Randomizer {
 		try {
 			return new URL("http://loremflickr.com/" + width + "/" + height + "/" + type);
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;
-		
 	}
 }

@@ -16,7 +16,6 @@ public abstract class Product {
 	protected int lowestPrice; //The auctioneer'll not sell the product for a price lower than the lowestPrice.
 	protected int increasePrice; //The price is increased with every bid by the increasePrice
 	protected Bid highestBid; //The highest bid.
-//	protected Icon icon; //The icon of a product.
 	protected ImageView ui;
 	protected URL imageURL;
 	
@@ -82,26 +81,9 @@ public abstract class Product {
 	 */
 	//question: make this method final?
 	public void paintIcon() throws MalformedURLException{
-//		try {
-//			URL url = new URL("");
-//			javax.swing.Icon icon = new ImageProxy(url);
-//			ImageView.paintIcon(icon);
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		ui.paintIcon(imageURL);
-		
+		ui.paintIcon(imageURL);	
 	}
 	
-//	/**
-//	 * Sets the icon variable.
-//	 * @param icon
-//	 */
-//	public final void setIcon(Icon icon){
-//		this.icon = icon;
-//	}
-//	
 	/**
 	 * @return the name of a person
 	 */
@@ -178,9 +160,7 @@ public abstract class Product {
 		return "Product: " + this.getDescription() + "\r\n"
 				+ "Start price: " + this.startPrice + " (increasing with " + this.getIncreasePrice() + ")\r\n"
 				+ "Current highest bid: " + (highestBid.getBidder() != null ? highestBid.getPriceString() : "-none-" + "\r\n");
-//				+ "Current highest bid: " + highestBid.getPriceString() + "\r\n";
 	}
-	
 
 	/**
 	 * returns a string with an euro sign (e.g. €10,- if the price is 10).
@@ -192,9 +172,4 @@ public abstract class Product {
 	public String getPriceString() {
 		return "€" + this.getStartPrice() + ",-";
 	}
-
-	
-	
-	
-	
 }
