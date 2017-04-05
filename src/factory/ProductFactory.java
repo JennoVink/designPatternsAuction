@@ -6,7 +6,6 @@ import decorator.Maintenance;
 import decorator.Warranty;
 import decorator.XLSize;
 import noPattern.Randomizer;
-import testingPleaseDelete.TestProduct;
 
 import java.util.Collections;
 import java.util.Stack;
@@ -29,7 +28,7 @@ public class ProductFactory implements AbstractFactory {
 		//	return addDecorators(new Bike(), null);
 		default:
 			System.out.println("Product type not recognized, default TestProdcut is set.");
-			return addDecorators(new TestProduct(), null);
+			return null;
 		}
 	}
 
@@ -60,7 +59,9 @@ public class ProductFactory implements AbstractFactory {
 				decoratorStack.pop();
 			}
 		}
-
+		
+		//Here starts the fun part, we pop off a string
+		//and continue to add them as decorators!
 		if (!decoratorStack.empty()) {
 			switch (decoratorStack.pop()) {
 			case "warranty":
@@ -76,7 +77,7 @@ public class ProductFactory implements AbstractFactory {
 				product = new XLSize(product);
 				break;
 			}
-
+			//Start recursion
 			return addDecorators(product, decoratorStack);
 		}
 
@@ -98,7 +99,7 @@ public class ProductFactory implements AbstractFactory {
 		default:
 			System.out.println("Product type not recognized, default TestProdcut is set.");
 //			return addDecorators(new TestProduct(), null);
-			return new TestProduct();
+			return null;
 		}
 	}
 }

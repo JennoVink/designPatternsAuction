@@ -39,6 +39,7 @@ public class SniperBidder extends Bidder {
 	/**
 	 * Check if the bidder sniped the item before so he 
 	 * wont try sniping again, avoiding a sniper war.
+	 *	@return boolean - true if it already sniped, false if it did not.
 	 */
 	protected boolean didISnipe(Product currentProduct)
 	{

@@ -13,6 +13,7 @@ public class ImageProxy implements Icon {
 	private Thread retrievalThread;
 	private boolean retrieving = false;
 	
+	//Save the imageURL for later use in this class.
 	public ImageProxy(URL url)
 	{
 		imageURL = url;
@@ -38,6 +39,13 @@ public class ImageProxy implements Icon {
 			
 	}
 
+	/**
+	 * this method paints the icon if imageIcon is not null, otherwise
+	 * it will draw a string onto the screen with the text "Loading"
+	 * After drawing the string it creates a thread to start retrieving 
+	 * the image from the imageUrl stored in the class.
+	 *@return void - it will draw onto the graphics.
+	 */
 	public void paintIcon(final Component c, Graphics  g, int x,  int y) {	
 		if(imageIcon != null)
 		{

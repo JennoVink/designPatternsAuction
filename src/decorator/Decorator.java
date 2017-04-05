@@ -5,10 +5,14 @@ import noPattern.Bid;
 
 public abstract class Decorator extends Product {
 
+	//The object(Product) that is being wrapped by the decorator.
 	protected Product wrappedProduct;
+	
 	public Decorator(Product wrappedProduct)
 	{
-		//This is interesting...
+		//Weird construction here, the decorator needs to extend
+		//the Product so we have to call super() again.
+		//We are just giving the object that we are wrapping back for the sake of it.
 		super(wrappedProduct.getDescription(), 
 				wrappedProduct.getStartPrice(), 
 				wrappedProduct.getLowestPrice(), 

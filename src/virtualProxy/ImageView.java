@@ -1,38 +1,19 @@
 package virtualProxy;
 
-import java.awt.EventQueue;
-import java.awt.image.BufferedImage;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
-
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Dimension;
 
 public class ImageView{
 
 	private JFrame frame;
 	private JLabel picLabel;
-	
-	private URLConnection uc;
 
 	/**
-	 * Create the application.
+	 * Create the application UI.
 	 */
 	public ImageView() {
 		frame = new JFrame();
@@ -53,9 +34,10 @@ public class ImageView{
             //set the proper user agent
             System.setProperty("http.agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
                        
+            //create our ImageProxy
             Icon icon = new ImageProxy(imageURL);
+            //and put it in a label
             picLabel.setIcon(icon);
-            
             frame.setPreferredSize(new Dimension(JLabel.WIDTH, JLabel.HEIGHT)); 
         } 
 		catch (Exception exp) 
@@ -64,9 +46,4 @@ public class ImageView{
         }
 		
 	}
-	public ImageView getImageView()
-	{
-		return this;
-	}
-
 }
