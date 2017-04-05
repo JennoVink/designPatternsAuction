@@ -16,13 +16,20 @@ public class SniperBidder extends Bidder {
 		//if there is no highest bidder yet...
 		if(currentProduct.getHighestBid().getBidder() == null){
 			//make the first bid if enough budget:
-			if(haveEnoughBudget(true) && count == Randomizer.getRandomInt(1, 2) && !didISnipe(currentProduct)){
-				System.out.println("COUNT IN SNIPER: " + count);
+			if(haveEnoughBudget(true) 
+					&& count == Randomizer.getRandomInt(1, 2) 
+					&& !didISnipe(currentProduct) 
+					&& Randomizer.getRandomBool(2)){
+//				System.out.println("COUNT IN SNIPER: " + count);
 				auctioneer.gotNewBid(new Bid(this, currentProduct.getHighestBid().getPrice()));
 				return;
 			}
-		} else if(haveEnoughBudget(false) && !amIHighestBidder() && count == Randomizer.getRandomInt(1, 3) && !didISnipe(currentProduct)){
-			System.out.println("COUNT IN SNIPER: " + count);
+		} else if(haveEnoughBudget(false) 
+				&& !amIHighestBidder() 
+				&& count == Randomizer.getRandomInt(1, 2) 
+				&& !didISnipe(currentProduct)
+				&& Randomizer.getRandomBool(2)){
+//			System.out.println("COUNT IN SNIPER: " + count);
 			auctioneer.gotNewBid(new Bid(this, currentProduct.getHighestBid().getPrice() + currentProduct.getIncreasePrice()));
 
 		}

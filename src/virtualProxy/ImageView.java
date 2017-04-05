@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.WindowConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -26,56 +27,32 @@ import java.awt.Dimension;
 public class ImageView{
 
 	private JFrame frame;
+	private JLabel picLabel;
 	
 	private URLConnection uc;
-
-	public static void main(String[] args){
-		ImageView view = new ImageView();
-	}
 
 	/**
 	 * Create the application.
 	 */
 	public ImageView() {
-		
+		frame = new JFrame();
+        frame.setVisible(true);
+        frame.setSize(600, 600);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        picLabel = new JLabel();
+        frame.getContentPane().add(picLabel);
 	}
 
 	
-	public void paintIcon(URL imageURL){
-//		  EventQueue.invokeLater(new Runnable() {
-//	            @Override
-//	            public void run() {
-//	                try {
-//	                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//	                } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException ex) {
-//	                }
-//
-//	                
-//
-//	            }
-//	        });
-		  
-		    	
-//          	final HttpURLConnection connection = (HttpURLConnection) imageURL
-//          	        .openConnection();
-//          	connection.setRequestProperty(
-//          	    "User-Agent",
-//          	    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
-//          	final BufferedImage image = ImageIO.read(connection.getInputStream());
-          	
+	public void paintIcon(URL imageURL){	
 		try 
 		{  
-			frame = new JFrame();
-            frame.setVisible(true);
-            frame.setSize(1000, 800);
+            //set the proper user agent
+            System.setProperty("http.agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
+                       
+            Icon icon = new ImageProxy(imageURL);
+            picLabel.setIcon(icon);
             
-            //kan alleen niet onze url laden?
-			URL url = new URL("http://theslideshow.net/#simple/car");
-			System.out.println(imageURL.toString());
-            Icon icon = new ImageProxy(url);
-            
-            System.out.println("Load image into frame...");
-            frame.getContentPane().add(new JLabel(icon));
             frame.setPreferredSize(new Dimension(JLabel.WIDTH, JLabel.HEIGHT)); 
         } 
 		catch (Exception exp) 

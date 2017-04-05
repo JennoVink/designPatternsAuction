@@ -17,7 +17,7 @@ public abstract class Decorator extends Product {
 				wrappedProduct.getUrl());
 		this.wrappedProduct = wrappedProduct;	
 		
-		//note: when an object is wrapped, their constructor are also called.
+		//note: when an object is wrapped, their constructor is also called.
 		//the problem is that the most outer wrapper new (e.g. a(new b(new c))) -> a is the most outer)
 		//never sets the right price as a initial "null bidding".
 		setHighestBid(new Bid(null, getStartPrice()));

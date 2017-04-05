@@ -23,11 +23,25 @@ public final class Randomizer {
 		return generator.nextBoolean();
 	}
 	
+	/**
+	 * Generate a Random bool with a 1 out of @param outOf chance.
+	 * @param outOf 
+	 * @return bool.
+	 */
+	public static boolean getRandomBool(int outOf){
+		return Randomizer.getRandomInt(0, outOf - 1) == 0;
+	}
+	
 	public static int getRandomInt(int min, int max)
 	{
 		return generator.nextInt(max + 1 - min) + min;
 	}
 
+	/**
+	 * Gets a random url from the type @param type. The width and the height are random.
+	 * @param type
+	 * @return
+	 */
 	public static URL getRandomUrl(String type) {
 		int width = Randomizer.getRandomInt(400, 500);
 		int height = Randomizer.getRandomInt(300, 400);

@@ -14,52 +14,51 @@ import factory.Car;
 import factory.Product;
 import factory.ProductFactory;
 import noPattern.Bid;
+import noPattern.Randomizer;
 import testingPleaseDelete.BrokeBidder;
 import testingPleaseDelete.TestProduct;
 import virtualProxy.ImageView;
 
 public class Auctioneer extends Subject implements Observer{
 	public static void main(String[] args){
-//		System.out.println("Hello friend. Hello, friend. Welcome to the animal auction");
-//				
-//		SimpleTimer timer = new SimpleTimer();
-//		
+		System.out.println("Hello friend. Hello, friend. Welcome to the animal auction");
+				
+		SimpleTimer timer = new SimpleTimer();
+		
+		ImageView ui = new ImageView();
+		
 		AbstractFactory productFactory = new ProductFactory();
-//		Auctioneer auctioneer = new Auctioneer(productFactory, timer);
-//
-//		//let the timer know someone is watching him.
-//		timer.registerObserver(auctioneer);
-//		
-//		//now it's time for some bidders:
-////		Bidder bidder = new BrokeBidder(2000, "Japse de hond", auctioneer);
-//		
-//		Bidder bidder = new RandomBidder(2000, "Japse de hond", auctioneer);
-//		auctioneer.registerObserver(bidder);
-//		Bidder snipeBidder = new SniperBidder(2000, "420 noscope sniper", auctioneer);
-//		auctioneer.registerObserver(snipeBidder);
-//		
-//		
-//		
-////		bidder = new BrokeBidder(2000, "Foxie het konijn", auctioneer);
-//		
-//		bidder = new RandomBidder(2000, "Foxie het konijn", auctioneer);
-//		auctioneer.registerObserver(bidder);
-//		snipeBidder = new SniperBidder(2000, "Sniper 101", auctioneer);
-//		auctioneer.registerObserver(snipeBidder);
-//	
-//		auctioneer.startAuction();
+		Auctioneer auctioneer = new Auctioneer(productFactory, timer, ui);
+
+		//let the timer know someone is watching him.
+		timer.registerObserver(auctioneer);
+		
+		//now it's time for some bidders:
+		Bidder bidder = new RandomBidder(2000, "Japse de hond 1", auctioneer);
+		auctioneer.registerObserver(bidder);
+		
+		Bidder snipeBidder = new SniperBidder(2000, "420 noscope sniper", auctioneer);
+		auctioneer.registerObserver(snipeBidder);
+				
+		bidder = new RandomBidder(2000, "Foxie het konijn 2", auctioneer);
+		auctioneer.registerObserver(bidder);
+		
+		bidder = new RandomBidder(2000, "Foxie het konijn 3", auctioneer);
+		auctioneer.registerObserver(bidder);
+		
+		bidder = new DoubleDownBidder(5000, "Double downer", auctioneer);
+		auctioneer.registerObserver(bidder);
+		
+		snipeBidder = new SniperBidder(2000, "Sniper 101", auctioneer);
+		auctioneer.registerObserver(snipeBidder);
+
+		auctioneer.startAuction();
 		
 		
-		for(int i = 0; i < 5; i++)
-		{
-			Product p = productFactory.generateProduct("Plane");
-			try {
-				p.paintIcon();
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		} 
+//		for(int i = 0; i < 500; i++)
+//		{
+//			System.out.println(Randomizer.getRandomInt(1, 2));
+//		}
 	}
 	
 	private Product currentProduct;
@@ -67,18 +66,21 @@ public class Auctioneer extends Subject implements Observer{
 	private AbstractFactory productFactory;
 	private Subject timer;
 	
+	private ImageView ui;
+	
 	private int notSoldCounter;
 	
 	//this is painful... The SimpleTimer class now has a counter, and so does the Auctioneer...
 	private int count;
 	
-	public Auctioneer(AbstractFactory productFactory, Subject timer){
-		if(productFactory == null || timer == null){
-			System.out.println("No ProductFactory and/or Timer given to the auctioneer. Aborting...");
+	public Auctioneer(AbstractFactory productFactory, Subject timer, ImageView ui){
+		if(productFactory == null || timer == null || ui == null){
+			System.out.println("No ProductFactory and/or Timer and/or ImageView given to the auctioneer. Aborting...");
 			System.exit(0);
 		}
 		this.notSoldCounter = 0;
 		this.productFactory = productFactory;
+		this.ui = ui;
 		this.timer = timer;
 	}
 	
@@ -117,13 +119,8 @@ public class Auctioneer extends Subject implements Observer{
 	    Collections.shuffle(observers);
 		
 		this.currentProduct = productFactory.generateRandomProduct();
-		try {
-			this.currentProduct.paintIcon();
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//	    this.currentProduct = new Warranty(new TestProduct());
+		ui.paintIcon(currentProduct.getUrl());
+//			this.currentProduct.paintIcon();
 	    		
 		System.out.println("-----A new Product is set!-----");
 		System.out.println(currentProduct);

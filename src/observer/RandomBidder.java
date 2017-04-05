@@ -14,13 +14,11 @@ public class RandomBidder extends Bidder{
 		//if there is no highest bidder yet...
 		if(currentProduct.getHighestBid().getBidder() == null){
 			//make the first bid if enough budget:
-			if(haveEnoughBudget(true) && Randomizer.getRandomBool()){
-				System.out.println("COUNT IN RANDOM: " + count);
+			if(haveEnoughBudget(true) && Randomizer.getRandomBool(3)){
 				auctioneer.gotNewBid(new Bid(this, currentProduct.getHighestBid().getPrice()));
 				return;
 			}
-		} else if(haveEnoughBudget(false) && !amIHighestBidder() && Randomizer.getRandomBool()){
-			System.out.println("COUNT IN RANDOM: " + count);
+		} else if(haveEnoughBudget(false) && !amIHighestBidder() && Randomizer.getRandomBool(3)){
 			auctioneer.gotNewBid(new Bid(this, currentProduct.getHighestBid().getPrice() + currentProduct.getIncreasePrice()));			
 		}
 		

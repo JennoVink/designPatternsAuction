@@ -39,7 +39,6 @@ public abstract class Product {
 		}
 		
 		this.imageURL = imageURL;
-		this.ui = new ImageView();
 		this.startPrice = startPrice;	
 		this.lowestPrice = lowestPrice;
 		this.increasePrice = increasePrice;
